@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пламя в темноте — дракон</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            background: radial-gradient(ellipse at center, #0d0505 0%, #050202 50%, #000000 100%);
+            font-family: 'Georgia', 'Times New Roman', serif;
+            overflow: hidden;
+            cursor: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* Контейнер дракона — следует за курсором */
+        #dragon-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 10;
+            will-change: transform;
+            transition: transform 0.06s ease-out;
+        }
+
+        #dragon-container img {
+            display: block;
+            width: 300px;          /* ← поменяйте размер, если нужно */
+            height: auto;
+            filter: drop-shadow(0 0 40px rgba(255, 80, 0, 0.6));
+            image-rendering: auto;
+            transform-origin: center;
+        }
+
+        /* Кастомный курсор (огонь) */
+        #cursor-fire {
+            position: fixed;
+            pointer-events: none;
+            z-index: 9999;
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, rgba(255, 180, 80, 0.6), rgba(255, 80, 0, 0.2) 50%, transparent 70%);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: screen;
+            filter: blur(8px);
+        }
+
+        /* Звёзды на фоне */
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .star {
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+            animation: twinkle var(--duration) ease-in-out infinite alternate;
+            box-shadow: 0 0 6px rgba(255, 215, 150, 0.5);
+        }
+        @keyframes twinkle {
+            0% { opacity: 0.15; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1.2); }
+        }
+
+        /* Пламя внизу */
+        .flames {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 140px;
+            pointer-events: none;
+            z-index: 1;
+            background: radial-gradient(ellipse at 30% 100%, rgba(255, 80, 0, 0.25) 0%, transparent 70%),
+                        radial-gradient(ellipse at 70% 100%, rgba(255, 150, 0, 0.20) 0%, transparent 70%);
+            animation: flicker 3s infinite alternate;
+        }
+        @keyframes flicker {
+            0% { opacity: 0.4; }
+            100% { opacity: 0.9; }
+        }
+
+        /* Карточка предсказаний */
+        .card {
+            position: relative;
+            z-index: 20;
+            max-width: 560px;
+            width: 90%;
+            background: rgba(8, 4, 4, 0.82);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid rgba(200, 120, 50, 0.25);
+            border-radius: 32px;
+            padding: 32px 24px 38px;
+            text-align: center;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95), 0 0 80px rgba(255, 80, 0, 0.12);
+            pointer-events: auto;
+        }
+        .card h1 {
+            font-size: 30px;
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            color: #e8c39e;
+            text-shadow: 0 0 25px rgba(255, 150, 50, 0.25);
+            margin-bottom: 4px;
+            font-family: 'Palatino', 'Georgia', serif;
+        }
+        .card .author {
+            font-size: 17px;
+            letter-spacing: 7px;
+            color: #b8865a;
+            opacity: 0.8;
+            font-style: italic;
+            border-bottom: 1px solid rgba(200, 120, 50, 0.12);
+            padding-bottom: 14px;
+            margin-bottom: 22px;
+        }
+        .card .subtitle {
+            font-size: 13px;
+            letter-spacing: 5px;
+            color: #b8865a;
+            opacity: 0.6;
+            margin-bottom: 22px;
+            font-style: italic;
+        }
+        .prediction-box {
+            min-height: 120px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 12px;
+            margin-bottom: 24px;
+            border-radius: 16px;
+            background: rgba(0, 0, 0, 0.45);
+            border: 1px solid rgba(200, 120, 50, 0.12);
+        }
+        .prediction-text {
+            font-size: 20px;
+            line-height: 1.5;
+            color: #f0e0d0;
+            font-style: italic;
+            font-weight: 300;
+            text-shadow: 0 0 30px rgba(255, 180, 100, 0.12);
+            transition: opacity 0.4s ease, transform 0.4s ease;
+        }
+        .prediction-text.fade {
+            opacity: 0;
+            transform: scale(0.95);
+        }
+        .btn {
+            padding: 13px 38px;
+            background: linear-gradient(145deg, #2a1a0e, #1a0e06);
+            color: #e8c39e;
+            font-size: 17px;
+            font-family: 'Georgia', serif;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            border: 1px solid rgba(200, 120, 50, 0.35);
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.25s;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.6);
+        }
+        .btn:hover {
+            background: #3d281a;
+            border-color: #d49c6b;
+            transform: translateY(-2px);
+            box-shadow: 0 0 50px rgba(200, 120, 50, 0.25);
+        }
+        .btn:active {
+            transform: translateY(0px);
+        }
+
+        /* Адаптив */
+        @media (max-width: 640px) {
+            #dragon-container img {
+                width: 200px;
+            }
+            .card {
+                padding: 24px 16px 30px;
+            }
+            .card h1 {
+                font-size: 22px;
+                letter-spacing: 4px;
+            }
+            .card .author {
+                font-size: 14px;
+                letter-spacing: 4px;
+            }
+            .prediction-text {
+                font-size: 17px;
+            }
+            .btn {
+                font-size: 14px;
+                padding: 11px 28px;
+            }
+            #cursor-fire {
+                width: 30px;
+                height: 30px;
+                filter: blur(5px);
+            }
+        }
+
+        @media (max-width: 400px) {
+            #dragon-container img {
+                width: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Звёзды -->
+    <div class="stars" id="starsContainer"></div>
+
+    <!-- Пламя -->
+    <div class="flames"></div>
+
+    <!-- Кастомный курсор -->
+    <div id="cursor-fire"></div>
+
+    <!-- ДРАКОН – ваш локальный файл -->
+    <div id="dragon-container">
+        <img id="dragonImg" src="dragon.gif" alt="Дракон" draggable="false">
+    </div>
+
+    <!-- Карточка предсказаний -->
+    <div class="card">
+        <h1>Пламя в темноте</h1>
+        <div class="author">Таня Нордсвей</div>
+        <div class="subtitle">✦ Предсказание судьбы ✦</div>
+        <div class="prediction-box">
+            <div class="prediction-text" id="predictionText">Наведи на огонь и нажми кнопку</div>
+        </div>
+        <button class="btn" id="btnPredict">Получить предсказание</button>
+    </div>
+
+    <script>
+        // ---------- ПРЕДСКАЗАНИЯ (по книге) ----------
+        const predictions = [
+            "Ты – пламя в темноте. Твой свет не погаснет, даже если весь мир объяла тьма.",
+            "Истинная пара найдёт тебя, когда ты будешь готова принять свою суть.",
+            "Твой путь – путь всадника. Дракон уже ждёт тебя на вершине.",
+            "Связь будет крепка, если сердце открыто, а разум чист.",
+            "Когда пламя погаснет, тьма придёт. Но ты можешь зажечь его снова.",
+            "Ты – наследница древнего рода. Кровь зовёт тебя к алтарям.",
+            "Пророчество сбудется, когда два алтаря соединятся в один.",
+            "Великая ночь близка, но свет победит, если ты не дрогнешь.",
+            "Твоя душа – пустая, но она может стать всем, чем ты пожелаешь.",
+            "Любовь спасёт мир – даже тот, что погружён во тьму.",
+            "Инициация ждёт тебя. Падение станет началом полёта.",
+            "Твой дракон всегда будет с тобой, пока ты веришь в него.",
+            "Ты – Хати, охотница за луной. Твоя цель – нести свет.",
+            "Пламя в твоём сердце никогда не угаснет, даже в самый тёмный час.",
+            "Тьма и свет – две стороны одной мечты. Выбирай свою.",
+            "Ты сильнее, чем думаешь. Помни об этом, когда наступит ночь.",
+            "Судьба – не приговор. Ты сама куёшь свою дорогу.",
+            "Даже пепел хранит искру жизни. Восстань из него.",
+            "Твой союз с драконом – это союз двух миров. Береги его.",
+            "В каждом полукровке живёт целая вселенная. Открой её.",
+            "Когда Шаян посмотрит на тебя, ты узнаешь свою истинную пару.",
+            "Справедливость восторжествует, если ты не отступишь.",
+            "Портал в Сумрачный Двор откроется для того, кто достоин.",
+            "Ты – не просто ученица. Ты – будущая королева.",
+            "Пламя в темноте – это ты. Никогда не забывай об этом."
+        ];
+
+        // ---------- ЛОГИКА ПРЕДСКАЗАНИЙ ----------
+        const predText = document.getElementById('predictionText');
+        const btn = document.getElementById('btnPredict');
+
+        btn.addEventListener('click', () => {
+            const random = Math.floor(Math.random() * predictions.length);
+            const newText = predictions[random];
+            predText.classList.add('fade');
+            setTimeout(() => {
+                predText.textContent = newText;
+                predText.classList.remove('fade');
+            }, 350);
+        });
+
+        window.addEventListener('load', () => {
+            const random = Math.floor(Math.random() * predictions.length);
+            predText.textContent = predictions[random];
+        });
+
+        // ---------- СЛЕДОВАНИЕ ДРАКОНА ЗА КУРСОРОМ ----------
+        const container = document.getElementById('dragon-container');
+        const cursorFire = document.getElementById('cursor-fire');
+        const dragonImg = document.getElementById('dragonImg');
+
+        let targetX = window.innerWidth / 2;
+        let targetY = window.innerHeight / 2;
+        let currentX = targetX;
+        let currentY = targetY;
+
+        let dragonW = 300;
+        let dragonH = 250;
+
+        function updateDragonSize() {
+            const rect = dragonImg.getBoundingClientRect();
+            if (rect.width) {
+                dragonW = rect.width;
+                dragonH = rect.height;
+            }
+        }
+        window.addEventListener('load', () => setTimeout(updateDragonSize, 200));
+        window.addEventListener('resize', () => setTimeout(updateDragonSize, 200));
+
+        document.addEventListener('mousemove', (e) => {
+            targetX = e.clientX;
+            targetY = e.clientY;
+            cursorFire.style.left = targetX + 'px';
+            cursorFire.style.top = targetY + 'px';
+        });
+
+        function followDragon() {
+            const dx = targetX - currentX;
+            const dy = targetY - currentY;
+            const ease = 0.10;
+            currentX += dx * ease;
+            currentY += dy * ease;
+            const offsetX = dragonW / 2;
+            const offsetY = dragonH / 2;
+            container.style.transform = `translate(${currentX - offsetX}px, ${currentY - offsetY}px)`;
+            requestAnimationFrame(followDragon);
+        }
+        followDragon();
+
+        // ---------- ЗВЁЗДЫ ----------
+        const starsContainer = document.getElementById('starsContainer');
+        for (let i = 0; i < 130; i++) {
+            const star = document.createElement('div');
+            star.className = 'star';
+            const size = Math.random() * 3 + 1;
+            star.style.width = size + 'px';
+            star.style.height = size + 'px';
+            star.style.left = Math.random() * 100 + '%';
+            star.style.top = Math.random() * 100 + '%';
+            star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
+            star.style.animationDelay = (Math.random() * 6) + 's';
+            star.style.opacity = Math.random() * 0.5 + 0.15;
+            starsContainer.appendChild(star);
+        }
+    </script>
+</body>
+</html>
