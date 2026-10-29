@@ -7,6 +7,7 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
+        /* ================= ПЕРЕМЕННЫЕ ================= */
         :root {
             --bg-gradient: radial-gradient(circle at center, #14122a 0%, #050510 60%, #000000 100%);
             --card-bg: rgba(15, 15, 25, 0.85);
@@ -18,16 +19,25 @@
             --glow-color: rgba(160, 180, 255, 0.15);
         }
 
+        /* ---------- ПЛАМЯ: ЗАКАТ ---------- */
         body.theme-flame {
-            --bg-gradient: radial-gradient(ellipse at center, #0d0505 0%, #050202 50%, #000000 100%);
-            --card-bg: rgba(8, 4, 4, 0.82);
-            --card-border: rgba(200, 120, 50, 0.25);
-            --title-color: #e8c39e;
-            --text-color: #f0e0d0;
-            --accent-color: #d49c6b;
-            --btn-bg: linear-gradient(145deg, #2a1a0e, #1a0e06);
-            --glow-color: rgba(255, 80, 0, 0.25);
+            --bg-gradient: linear-gradient(to bottom,
+                #1a0520 0%,
+                #3d0a2e 18%,
+                #6b1520 42%,
+                #a8322a 68%,
+                #d97030 86%,
+                #f0b060 100%);
+            --card-bg: rgba(20, 8, 10, 0.85);
+            --card-border: rgba(255, 140, 80, 0.3);
+            --title-color: #ffd0a0;
+            --text-color: #f5dcc0;
+            --accent-color: #ff9050;
+            --btn-bg: linear-gradient(145deg, #3a1a0e, #1a0804);
+            --glow-color: rgba(255, 120, 40, 0.35);
         }
+
+        /* ---------- МОНСТРЫ ---------- */
         body.theme-steel {
             --bg-gradient: radial-gradient(circle at top, #1a1a1f 0%, #050505 100%);
             --card-bg: rgba(18, 18, 20, 0.9);
@@ -38,6 +48,8 @@
             --btn-bg: linear-gradient(145deg, #2e2e32, #151518);
             --glow-color: rgba(168, 42, 42, 0.3);
         }
+
+        /* ---------- ДОМ ---------- */
         body.theme-house {
             --bg-gradient: linear-gradient(to bottom, #3d2b10 0%, #0a0802 100%);
             --card-bg: rgba(30, 20, 10, 0.85);
@@ -48,6 +60,8 @@
             --btn-bg: linear-gradient(145deg, #4a3412, #2a1d08);
             --glow-color: rgba(212, 175, 55, 0.2);
         }
+
+        /* ---------- СМОЛЬ ---------- */
         body.theme-sapphires {
             --bg-gradient: radial-gradient(circle at center, #0a1930 0%, #010205 100%);
             --card-bg: rgba(5, 12, 24, 0.88);
@@ -97,32 +111,31 @@
         }
         .bg-effect.active { opacity: 1; }
 
-        /* ---------- НЕЙТРАЛЬНЫЙ: мерцающие звёзды ---------- */
-        .star {
+        /* ---------- НЕЙТРАЛЬНЫЙ: северное сияние ---------- */
+        .aurora {
             position: absolute;
-            background: #ffffff;
             border-radius: 50%;
-            box-shadow: 0 0 6px rgba(200, 210, 255, 0.9);
-            animation: twinkle ease-in-out infinite;
+            filter: blur(90px);
+            mix-blend-mode: screen;
+            animation: aurora-drift ease-in-out infinite alternate;
         }
-        @keyframes twinkle {
-            0%, 100% { opacity: 0.15; transform: scale(0.7); }
-            50%      { opacity: 1;    transform: scale(1.3); }
+        @keyframes aurora-drift {
+            0%   { transform: translate(0, 0) scale(1)   rotate(0deg);    opacity: 0.35; }
+            100% { transform: translate(80px, -50px) scale(1.35) rotate(15deg); opacity: 0.65; }
         }
 
-        /* ---------- НЕЙТРАЛЬНЫЙ: плывущие светящиеся пылинки ---------- */
-        .dust {
+        /* ---------- НЕЙТРАЛЬНЫЙ: светлячки ---------- */
+        .firefly {
             position: absolute;
-            background: radial-gradient(circle, rgba(180, 200, 255, 0.9) 0%, rgba(120, 160, 255, 0.4) 40%, transparent 70%);
+            background: radial-gradient(circle, #ffffff 0%, #a8d0ff 35%, rgba(120, 170, 255, 0) 75%);
             border-radius: 50%;
-            filter: blur(1px);
-            animation: drift linear infinite;
+            filter: blur(0.5px);
+            box-shadow: 0 0 8px rgba(170, 200, 255, 0.8);
+            animation: firefly ease-in-out infinite;
         }
-        @keyframes drift {
-            0%   { transform: translate(0, 0) scale(1);        opacity: 0; }
-            15%  { opacity: 0.85; }
-            85%  { opacity: 0.85; }
-            100% { transform: translate(60px, -110vh) scale(0.6); opacity: 0; }
+        @keyframes firefly {
+            0%, 100% { opacity: 0.05; transform: translate(0, 0)         scale(0.6); }
+            50%      { opacity: 1;    transform: translate(25px, -20px)  scale(1.2); }
         }
 
         /* ---------- МОНСТРЫ: кровавые искры ---------- */
@@ -132,9 +145,9 @@
             box-shadow: 0 0 10px #ff4d4d, 0 0 20px #a82a2a;
         }
         @keyframes fall {
-            0%   { transform: translateY(-100vh) translateX(0) scale(1);      opacity: 0; }
+            0%   { transform: translateY(-100vh) translateX(0) scale(1);     opacity: 0; }
             20%  { opacity: 1; } 80% { opacity: 1; }
-            100% { transform: translateY(100vh) translateX(30px) scale(0.5);  opacity: 0; }
+            100% { transform: translateY(100vh) translateX(30px) scale(0.5); opacity: 0; }
         }
 
         /* ---------- ДОМ: золотой песок ---------- */
@@ -160,6 +173,27 @@
         @keyframes float-side {
             0%   { transform: translateX(-80px) scale(1);   opacity: 0.2; }
             100% { transform: translateX(80px)  scale(1.2); opacity: 0.7; }
+        }
+
+        /* ---------- ПЛАМЯ: закатное свечение снизу ---------- */
+        .sun-glow {
+            position: absolute;
+            left: 50%;
+            bottom: -180px;
+            transform: translateX(-50%);
+            width: 900px;
+            height: 500px;
+            background: radial-gradient(ellipse at center,
+                rgba(255, 190, 90, 0.55) 0%,
+                rgba(255, 120, 40, 0.3) 35%,
+                rgba(180, 40, 40, 0) 75%);
+            border-radius: 50%;
+            filter: blur(20px);
+            animation: sun-pulse ease-in-out infinite alternate;
+        }
+        @keyframes sun-pulse {
+            0%   { opacity: 0.7; transform: translateX(-50%) scale(1);    }
+            100% { opacity: 1;   transform: translateX(-50%) scale(1.08); }
         }
 
         /* ================= ЭКРАНЫ ================= */
@@ -194,9 +228,9 @@
             transform: translateY(-5px); background: rgba(255, 255, 255, 0.05);
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
-        .book-btn[data-book="flame"]:hover { border-color: #e8c39e; color: #e8c39e; }
-        .book-btn[data-book="steel"]:hover { border-color: #a82a2a; color: #d0d0d5; }
-        .book-btn[data-book="house"]:hover { border-color: #d4af37; color: #f4d03f; }
+        .book-btn[data-book="flame"]:hover     { border-color: #ff9050; color: #ffd0a0; }
+        .book-btn[data-book="steel"]:hover     { border-color: #a82a2a; color: #d0d0d5; }
+        .book-btn[data-book="house"]:hover     { border-color: #d4af37; color: #f4d03f; }
         .book-btn[data-book="sapphires"]:hover { border-color: #1a44a1; color: #8ab4f8; }
 
         .card-wrapper { position: relative; z-index: 25; width: 90%; max-width: 560px; }
@@ -245,24 +279,12 @@
         }
         .btn:hover { transform: translateY(-2px); border-color: var(--accent-color); }
 
-        #dragon-container {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none; z-index: 10; will-change: transform;
-            opacity: 0; transition: opacity 0.5s ease;
-            display: flex; justify-content: center; align-items: center;
-        }
-        #dragon-container.visible { opacity: 1; }
-        #dragon-container img {
-            width: 300px; height: auto;
-            filter: drop-shadow(0 0 30px rgba(255, 80, 0, 0.5));
-        }
-
         @media (max-width: 640px) {
-            #dragon-container img { width: 180px; }
             .card { padding: 25px 15px; }
             .card h1 { font-size: 20px; }
             .prediction-text { font-size: 16px; }
             .books-grid { grid-template-columns: 1fr; }
+            .sun-glow { width: 600px; height: 380px; bottom: -140px; }
         }
     </style>
 </head>
@@ -276,11 +298,7 @@
     <div id="bg-ash"     class="bg-effect"></div>
     <div id="bg-sand"    class="bg-effect"></div>
     <div id="bg-fog"     class="bg-effect"></div>
-
-    <!-- Дракон -->
-    <div id="dragon-container">
-        <img id="dragonImg" src="dragon.gif" alt="Дракон" draggable="false">
-    </div>
+    <div id="bg-flame"   class="bg-effect"><div class="sun-glow"></div></div>
 
     <!-- ЭКРАН 1: ВЫБОР -->
     <div id="selection-screen" class="screen active">
@@ -328,9 +346,8 @@
             flame: {
                 title: "Пламя в темноте",
                 theme: "theme-flame",
-                effect: "none",
-                cursor: "drago.gif",              // ← GIF-курсор для «Пламени»
-                dragon: true,
+                effect: "bg-flame",
+                cursor: "drago.gif",              // GIF-курсор «Пламени»
                 predictions: [
                     "Ты – пламя в темноте. Твой свет не погаснет, даже если весь мир объяла тьма.",
                     "Истинная пара найдёт тебя, когда ты будешь готова принять свою суть.",
@@ -364,7 +381,6 @@
                 theme: "theme-steel",
                 effect: "bg-ash",
                 cursor: "cursor-steel.gif",
-                dragon: false,
                 predictions: [
                     "Сталь в твоих венах не знает пощады, но любовь может расплавить даже самое холодное сердце.",
                     "Тот, кто предал тебя, получит по заслугам. Судьба уже занесла свой стальной клинок.",
@@ -402,7 +418,6 @@
                 theme: "theme-house",
                 effect: "bg-sand",
                 cursor: "cursor-house.gif",
-                dragon: false,
                 predictions: [
                     "Твой дом там, где бьется сердце близких. Не бойся пустыни, она укажет путь к спасению.",
                     "Перемещаясь во времени, не забудь, кто ты есть. Твоя сила — в памяти.",
@@ -439,8 +454,7 @@
                 title: "Смоль и сапфиры",
                 theme: "theme-sapphires",
                 effect: "bg-fog",
-                cursor: "cursor-sapphire.gif",   // ⚠️ sapphire, не sapphires
-                dragon: false,
+                cursor: "cursor-sapphire.gif",
                 predictions: [
                     "В мире, полном монстров, питающихся кровью, ты и сама монстр, Лайла. Но любовь способна приручить тьму.",
                     "Смоль его глаз скрывает сапфиры души. Загляни глубже, прежде чем судить.",
@@ -480,7 +494,6 @@
         let currentBookId = null;
         const selectionScreen  = document.getElementById('selection-screen');
         const predictionScreen = document.getElementById('prediction-screen');
-        const dragonContainer  = document.getElementById('dragon-container');
         const bookTitleEl      = document.getElementById('bookTitle');
         const predText         = document.getElementById('predictionText');
         const btnPredict       = document.getElementById('btnPredict');
@@ -488,11 +501,9 @@
         const customCursor     = document.getElementById('custom-cursor');
 
         /* ============ КУРСОР ============ */
-        // По умолчанию — GIF cursor-default.gif (если нет — SVG через onerror)
         customCursor.src = DEFAULT_CURSOR;
         customCursor.classList.add('active');
 
-        // Fallback: если GIF-курсор не загрузился — подставляем SVG
         customCursor.addEventListener('error', () => {
             const key = currentBookId || 'default';
             if (!customCursor.src.startsWith('data:')) {
@@ -501,42 +512,36 @@
             }
         });
 
-        /* ============ ДИАГНОСТИКА ДРАКОНА ============ */
-        document.getElementById('dragonImg').addEventListener('error', () =>
-            console.warn('❌ Не найден файл: "dragon.gif"')
-        );
-        document.getElementById('dragonImg').addEventListener('load', () =>
-            console.log('✅ Загружен: "dragon.gif"')
-        );
-
         /* ============ ГЕНЕРАЦИЯ ФОНОВЫХ ЭФФЕКТОВ ============ */
         function generateEffects() {
-            // ----- Нейтральный: звёзды -----
+            // ----- Нейтральный: северное сияние -----
             const neutralCont = document.getElementById('bg-neutral');
-            for (let i = 0; i < 120; i++) {
-                const star = document.createElement('div');
-                star.className = 'star';
-                const size = Math.random() * 2.5 + 1;
-                star.style.width = size + 'px';
-                star.style.height = size + 'px';
-                star.style.left = Math.random() * 100 + '%';
-                star.style.top = Math.random() * 100 + '%';
-                star.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                star.style.animationDelay = (Math.random() * 4) + 's';
-                neutralCont.appendChild(star);
+            const auroraColors = ['#4a7ab8', '#8a4a9a', '#3a6a9a', '#5a3a8a', '#2a5a7a'];
+            for (let i = 0; i < 5; i++) {
+                const a = document.createElement('div');
+                a.className = 'aurora';
+                const size = Math.random() * 400 + 350;
+                a.style.width  = size + 'px';
+                a.style.height = size * 0.65 + 'px';
+                a.style.left   = Math.random() * 100 + '%';
+                a.style.top    = Math.random() * 100 + '%';
+                a.style.background = `radial-gradient(ellipse, ${auroraColors[i % auroraColors.length]} 0%, transparent 70%)`;
+                a.style.animationDuration = (Math.random() * 8 + 12) + 's';
+                a.style.animationDelay    = (Math.random() * 5) + 's';
+                neutralCont.appendChild(a);
             }
-            // ----- Нейтральный: пылинки -----
-            for (let i = 0; i < 25; i++) {
-                const dust = document.createElement('div');
-                dust.className = 'dust';
-                const size = Math.random() * 8 + 3;
-                dust.style.width = size + 'px';
-                dust.style.height = size + 'px';
-                dust.style.left = Math.random() * 100 + '%';
-                dust.style.top = (100 + Math.random() * 20) + '%';
-                dust.style.animationDuration = (Math.random() * 12 + 10) + 's';
-                dust.style.animationDelay = (Math.random() * 10) + 's';
-                neutralCont.appendChild(dust);
+            // ----- Нейтральный: светлячки -----
+            for (let i = 0; i < 45; i++) {
+                const ff = document.createElement('div');
+                ff.className = 'firefly';
+                const size = Math.random() * 6 + 3;
+                ff.style.width  = size + 'px';
+                ff.style.height = size + 'px';
+                ff.style.left   = Math.random() * 100 + '%';
+                ff.style.top    = Math.random() * 100 + '%';
+                ff.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                ff.style.animationDelay    = (Math.random() * 8) + 's';
+                neutralCont.appendChild(ff);
             }
 
             // ----- Монстры: искры -----
@@ -597,25 +602,14 @@
             const book = booksData[bookId];
 
             document.body.className = book.theme;
+            setActiveEffect(book.effect || 'bg-neutral');
 
-            // Фон: у книг либо свой эффект, либо нейтральный
-            if (book.effect && book.effect !== "none") {
-                setActiveEffect(book.effect);
-            } else {
-                setActiveEffect('bg-neutral');
-            }
-
-            // Курсор: GIF если есть, иначе SVG
             if (book.cursor) {
                 customCursor.src = book.cursor;
             } else {
                 customCursor.src = SVG_CURSORS[bookId] || SVG_CURSORS.default;
             }
             customCursor.classList.add('active');
-
-            // Дракон
-            if (book.dragon) dragonContainer.classList.add('visible');
-            else             dragonContainer.classList.remove('visible');
 
             bookTitleEl.textContent = book.title;
             predText.textContent = getRandomPrediction(book.predictions);
@@ -630,10 +624,9 @@
 
             document.body.className = 'theme-neutral';
             setActiveEffect('bg-neutral');
-            dragonContainer.classList.remove('visible');
 
             currentBookId = null;
-            customCursor.src = DEFAULT_CURSOR;   // снова нейтральный GIF (при 404 → SVG)
+            customCursor.src = DEFAULT_CURSOR;
         }
 
         btnBack.addEventListener('click', goBack);
@@ -652,26 +645,11 @@
             }, 350);
         });
 
-        /* ============ ДВИЖЕНИЕ КУРСОРА И ДРАКОНА ============ */
-        let targetX = window.innerWidth / 2, targetY = window.innerHeight / 2;
-        let currentX = targetX, currentY = targetY;
-
+        /* ============ КУРСОР ============ */
         document.addEventListener('mousemove', (e) => {
-            targetX = e.clientX;
-            targetY = e.clientY;
-            customCursor.style.left = targetX + 'px';
-            customCursor.style.top  = targetY + 'px';
+            customCursor.style.left = e.clientX + 'px';
+            customCursor.style.top  = e.clientY + 'px';
         });
-
-        function animate() {
-            const dx = targetX - currentX;
-            const dy = targetY - currentY;
-            currentX += dx * 0.1;
-            currentY += dy * 0.1;
-            dragonContainer.style.transform = `translate(${currentX - 150}px, ${currentY - 125}px)`;
-            requestAnimationFrame(animate);
-        }
-        animate();
     </script>
 </body>
 </html>
