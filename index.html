@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Пламя в темноте — дракон</title>
+    <title>Книжные предсказания</title>
     <style>
         * {
             margin: 0;
@@ -11,18 +11,73 @@
             box-sizing: border-box;
         }
 
+        /* ==================== ПЕРЕМЕННЫЕ ТЕМ ==================== */
+        :root {
+            /* Тема по умолчанию (Пламя в темноте) */
+            --bg-gradient: radial-gradient(ellipse at center, #0d0505 0%, #050202 50%, #000000 100%);
+            --card-bg: rgba(8, 4, 4, 0.82);
+            --card-border: rgba(200, 120, 50, 0.25);
+            --title-color: #e8c39e;
+            --text-color: #f0e0d0;
+            --accent-color: #d49c6b;
+            --btn-bg: linear-gradient(145deg, #2a1a0e, #1a0e06);
+            --flame-color-1: rgba(255, 80, 0, 0.25);
+            --flame-color-2: rgba(255, 150, 0, 0.20);
+        }
+
+        body.theme-steel {
+            /* Монстры царства стали - Сталь, кровь, мрак */
+            --bg-gradient: radial-gradient(ellipse at center, #1c1c1f 0%, #0a0a0c 60%, #000 100%);
+            --card-bg: rgba(15, 15, 18, 0.9);
+            --card-border: rgba(180, 180, 190, 0.3);
+            --title-color: #d0d0d5;
+            --text-color: #b0b0b5;
+            --accent-color: #a82a2a;
+            --btn-bg: linear-gradient(145deg, #2a2a2e, #151518);
+            --flame-color-1: rgba(168, 42, 42, 0.25);
+            --flame-color-2: rgba(80, 80, 90, 0.2);
+        }
+
+        body.theme-house {
+            /* Дом - Пустыня, вирус, золотой песок */
+            --bg-gradient: radial-gradient(ellipse at center, #3d2b10 0%, #1a1205 60%, #0a0802 100%);
+            --card-bg: rgba(30, 20, 10, 0.85);
+            --card-border: rgba(212, 175, 55, 0.3);
+            --title-color: #f4d03f;
+            --text-color: #e0c080;
+            --accent-color: #d4af37;
+            --btn-bg: linear-gradient(145deg, #4a3412, #2a1d08);
+            --flame-color-1: rgba(212, 175, 55, 0.25);
+            --flame-color-2: rgba(255, 220, 100, 0.15);
+        }
+
+        body.theme-sapphires {
+            /* Смоль и сапфиры - Ночь, кровь, вампиры */
+            --bg-gradient: radial-gradient(ellipse at center, #050b14 0%, #020408 60%, #000 100%);
+            --card-bg: rgba(5, 12, 24, 0.88);
+            --card-border: rgba(26, 68, 161, 0.4);
+            --title-color: #8ab4f8;
+            --text-color: #a0c0e0;
+            --accent-color: #1a44a1;
+            --btn-bg: linear-gradient(145deg, #0d1f3d, #050b14);
+            --flame-color-1: rgba(26, 68, 161, 0.25);
+            --flame-color-2: rgba(138, 180, 248, 0.15);
+        }
+
+        /* ==================== ОБЩИЕ СТИЛИ ==================== */
         body {
             min-height: 100vh;
-            background: radial-gradient(ellipse at center, #0d0505 0%, #050202 50%, #000000 100%);
+            background: var(--bg-gradient);
             font-family: 'Georgia', 'Times New Roman', serif;
             overflow: hidden;
             cursor: none;
             display: flex;
             justify-content: center;
             align-items: center;
+            transition: background 0.6s ease;
         }
 
-        /* Контейнер дракона — следует за курсором */
+        /* Контейнер дракона */
         #dragon-container {
             position: fixed;
             top: 0;
@@ -33,32 +88,39 @@
             z-index: 10;
             will-change: transform;
             transition: transform 0.06s ease-out;
+            opacity: 0; /* Скрыт на экране выбора */
+            transition: opacity 0.5s ease, transform 0.06s ease-out;
+        }
+
+        #dragon-container.visible {
+            opacity: 1;
         }
 
         #dragon-container img {
             display: block;
-            width: 300px;          /* ← поменяйте размер, если нужно */
+            width: 300px;
             height: auto;
-            filter: drop-shadow(0 0 40px rgba(255, 80, 0, 0.6));
+            filter: drop-shadow(0 0 40px var(--flame-color-1));
             image-rendering: auto;
             transform-origin: center;
         }
 
-        /* Кастомный курсор (огонь) */
+        /* Кастомный курсор */
         #cursor-fire {
             position: fixed;
             pointer-events: none;
             z-index: 9999;
             width: 50px;
             height: 50px;
-            background: radial-gradient(circle, rgba(255, 180, 80, 0.6), rgba(255, 80, 0, 0.2) 50%, transparent 70%);
+            background: radial-gradient(circle, var(--accent-color) 0%, transparent 70%);
             border-radius: 50%;
             transform: translate(-50%, -50%);
             mix-blend-mode: screen;
             filter: blur(8px);
+            opacity: 0.7;
         }
 
-        /* Звёзды на фоне */
+        /* Звёзды */
         .stars {
             position: fixed;
             top: 0;
@@ -89,58 +151,173 @@
             height: 140px;
             pointer-events: none;
             z-index: 1;
-            background: radial-gradient(ellipse at 30% 100%, rgba(255, 80, 0, 0.25) 0%, transparent 70%),
-                        radial-gradient(ellipse at 70% 100%, rgba(255, 150, 0, 0.20) 0%, transparent 70%);
+            background: radial-gradient(ellipse at 30% 100%, var(--flame-color-1) 0%, transparent 70%),
+                        radial-gradient(ellipse at 70% 100%, var(--flame-color-2) 0%, transparent 70%);
             animation: flicker 3s infinite alternate;
+            transition: background 0.6s ease;
         }
         @keyframes flicker {
             0% { opacity: 0.4; }
             100% { opacity: 0.9; }
         }
 
-        /* Карточка предсказаний */
-        .card {
+        /* ==================== ЭКРАНЫ ==================== */
+        .screen {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s ease;
+            z-index: 20;
+        }
+
+        .screen.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* ==================== ЭКРАН ВЫБОРА КНИГ ==================== */
+        .selection-container {
+            text-align: center;
+            width: 90%;
+            max-width: 900px;
+        }
+
+        .selection-title {
+            color: #fff;
+            font-size: 32px;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            margin-bottom: 40px;
+            text-shadow: 0 0 20px rgba(255,255,255,0.3);
+            font-family: 'Palatino', 'Georgia', serif;
+        }
+
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .book-btn {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 30px 20px;
+            color: #fff;
+            font-family: 'Georgia', serif;
+            font-size: 18px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 150px;
+        }
+
+        .book-btn span {
+            font-size: 14px;
+            opacity: 0.6;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .book-btn:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+
+        /* Темы карточек при наведении */
+        .book-btn[data-book="flame"]:hover { border-color: #e8c39e; color: #e8c39e; box-shadow: 0 0 20px rgba(232, 195, 158, 0.2); }
+        .book-btn[data-book="steel"]:hover { border-color: #a82a2a; color: #d0d0d5; box-shadow: 0 0 20px rgba(168, 42, 42, 0.2); }
+        .book-btn[data-book="house"]:hover { border-color: #d4af37; color: #f4d03f; box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
+        .book-btn[data-book="sapphires"]:hover { border-color: #1a44a1; color: #8ab4f8; box-shadow: 0 0 20px rgba(26, 68, 161, 0.2); }
+
+        /* ==================== КАРТОЧКА ПРЕДСКАЗАНИЙ ==================== */
+        .card-wrapper {
             position: relative;
             z-index: 20;
-            max-width: 560px;
             width: 90%;
-            background: rgba(8, 4, 4, 0.82);
+            max-width: 560px;
+        }
+
+        .card {
+            background: var(--card-bg);
             backdrop-filter: blur(14px);
             -webkit-backdrop-filter: blur(14px);
-            border: 1px solid rgba(200, 120, 50, 0.25);
+            border: 1px solid var(--card-border);
             border-radius: 32px;
             padding: 32px 24px 38px;
             text-align: center;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95), 0 0 80px rgba(255, 80, 0, 0.12);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95), 0 0 80px var(--flame-color-1);
             pointer-events: auto;
+            transition: all 0.6s ease;
+            position: relative;
         }
+
+        .back-btn {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: transparent;
+            border: 1px solid var(--card-border);
+            color: var(--accent-color);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-family: 'Georgia', serif;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .back-btn:hover {
+            background: var(--btn-bg);
+            border-color: var(--accent-color);
+        }
+
         .card h1 {
-            font-size: 30px;
-            letter-spacing: 6px;
+            font-size: 28px;
+            letter-spacing: 4px;
             text-transform: uppercase;
-            color: #e8c39e;
-            text-shadow: 0 0 25px rgba(255, 150, 50, 0.25);
+            color: var(--title-color);
+            text-shadow: 0 0 25px var(--flame-color-1);
             margin-bottom: 4px;
+            margin-top: 10px;
             font-family: 'Palatino', 'Georgia', serif;
+            transition: color 0.6s;
         }
+
         .card .author {
             font-size: 17px;
             letter-spacing: 7px;
-            color: #b8865a;
+            color: var(--accent-color);
             opacity: 0.8;
             font-style: italic;
-            border-bottom: 1px solid rgba(200, 120, 50, 0.12);
+            border-bottom: 1px solid var(--card-border);
             padding-bottom: 14px;
             margin-bottom: 22px;
+            transition: color 0.6s;
         }
+
         .card .subtitle {
             font-size: 13px;
             letter-spacing: 5px;
-            color: #b8865a;
+            color: var(--accent-color);
             opacity: 0.6;
             margin-bottom: 22px;
             font-style: italic;
+            transition: color 0.6s;
         }
+
         .prediction-box {
             min-height: 120px;
             display: flex;
@@ -149,147 +326,299 @@
             padding: 14px 12px;
             margin-bottom: 24px;
             border-radius: 16px;
-            background: rgba(0, 0, 0, 0.45);
-            border: 1px solid rgba(200, 120, 50, 0.12);
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid var(--card-border);
+            transition: border 0.6s;
         }
+
         .prediction-text {
             font-size: 20px;
             line-height: 1.5;
-            color: #f0e0d0;
+            color: var(--text-color);
             font-style: italic;
             font-weight: 300;
-            text-shadow: 0 0 30px rgba(255, 180, 100, 0.12);
-            transition: opacity 0.4s ease, transform 0.4s ease;
+            text-shadow: 0 0 30px var(--flame-color-2);
+            transition: opacity 0.4s ease, transform 0.4s ease, color 0.6s;
         }
+
         .prediction-text.fade {
             opacity: 0;
             transform: scale(0.95);
         }
+
         .btn {
             padding: 13px 38px;
-            background: linear-gradient(145deg, #2a1a0e, #1a0e06);
-            color: #e8c39e;
+            background: var(--btn-bg);
+            color: var(--title-color);
             font-size: 17px;
             font-family: 'Georgia', serif;
             letter-spacing: 3px;
             text-transform: uppercase;
-            border: 1px solid rgba(200, 120, 50, 0.35);
+            border: 1px solid var(--card-border);
             border-radius: 50px;
             cursor: pointer;
             transition: all 0.25s;
             box-shadow: 0 4px 25px rgba(0, 0, 0, 0.6);
         }
+
         .btn:hover {
-            background: #3d281a;
-            border-color: #d49c6b;
             transform: translateY(-2px);
-            box-shadow: 0 0 50px rgba(200, 120, 50, 0.25);
+            border-color: var(--accent-color);
+            box-shadow: 0 0 50px var(--flame-color-1);
         }
+
         .btn:active {
             transform: translateY(0px);
         }
 
         /* Адаптив */
         @media (max-width: 640px) {
-            #dragon-container img {
-                width: 200px;
-            }
-            .card {
-                padding: 24px 16px 30px;
-            }
-            .card h1 {
-                font-size: 22px;
-                letter-spacing: 4px;
-            }
-            .card .author {
-                font-size: 14px;
-                letter-spacing: 4px;
-            }
-            .prediction-text {
-                font-size: 17px;
-            }
-            .btn {
-                font-size: 14px;
-                padding: 11px 28px;
-            }
-            #cursor-fire {
-                width: 30px;
-                height: 30px;
-                filter: blur(5px);
-            }
+            #dragon-container img { width: 200px; }
+            .card { padding: 24px 16px 30px; }
+            .card h1 { font-size: 22px; letter-spacing: 2px; }
+            .card .author { font-size: 14px; letter-spacing: 4px; }
+            .prediction-text { font-size: 17px; }
+            .btn { font-size: 14px; padding: 11px 28px; }
+            #cursor-fire { width: 30px; height: 30px; filter: blur(5px); }
+            .selection-title { font-size: 24px; letter-spacing: 4px; }
+            .books-grid { grid-template-columns: 1fr; }
         }
 
         @media (max-width: 400px) {
-            #dragon-container img {
-                width: 150px;
-            }
+            #dragon-container img { width: 150px; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Звёзды -->
+    <!-- Фоны -->
     <div class="stars" id="starsContainer"></div>
-
-    <!-- Пламя -->
     <div class="flames"></div>
-
-    <!-- Кастомный курсор -->
     <div id="cursor-fire"></div>
 
-    <!-- ДРАКОН – ваш локальный файл -->
+    <!-- Дракон (показывается только на экране предсказаний) -->
     <div id="dragon-container">
         <img id="dragonImg" src="dragon.gif" alt="Дракон" draggable="false">
     </div>
 
-    <!-- Карточка предсказаний -->
-    <div class="card">
-        <h1>Пламя в темноте</h1>
-        <div class="author">Таня Нордсвей</div>
-        <div class="subtitle">✦ Предсказание судьбы ✦</div>
-        <div class="prediction-box">
-            <div class="prediction-text" id="predictionText">Наведи на огонь и нажми кнопку</div>
+    <!-- ЭКРАН 1: ВЫБОР КНИГИ -->
+    <div id="selection-screen" class="screen active">
+        <div class="selection-container">
+            <h1 class="selection-title">Выберите историю</h1>
+            <div class="books-grid">
+                <button class="book-btn" data-book="flame">
+                    Пламя в темноте
+                    <span>Таня Нордсвей</span>
+                </button>
+                <button class="book-btn" data-book="steel">
+                    Монстры царства стали
+                    <span>Таня Нордсвей</span>
+                </button>
+                <button class="book-btn" data-book="house">
+                    Дом
+                    <span>Таня Нордсвей</span>
+                </button>
+                <button class="book-btn" data-book="sapphires">
+                    Смоль и сапфиры
+                    <span>Таня Нордсвей</span>
+                </button>
+            </div>
         </div>
-        <button class="btn" id="btnPredict">Получить предсказание</button>
+    </div>
+
+    <!-- ЭКРАН 2: ПРЕДСКАЗАНИЯ -->
+    <div id="prediction-screen" class="screen">
+        <div class="card-wrapper">
+            <div class="card">
+                <button class="back-btn" id="btnBack">← Назад</button>
+                <h1 id="bookTitle">Пламя в темноте</h1>
+                <div class="author">Таня Нордсвей</div>
+                <div class="subtitle" id="bookSubtitle">✦ Предсказание судьбы ✦</div>
+                <div class="prediction-box">
+                    <div class="prediction-text" id="predictionText">Нажми на кнопку, чтобы узнать свою судьбу</div>
+                </div>
+                <button class="btn" id="btnPredict">Получить предсказание</button>
+            </div>
+        </div>
     </div>
 
     <script>
-        // ---------- ПРЕДСКАЗАНИЯ (по книге) ----------
-        const predictions = [
-            "Ты – пламя в темноте. Твой свет не погаснет, даже если весь мир объяла тьма.",
-            "Истинная пара найдёт тебя, когда ты будешь готова принять свою суть.",
-            "Твой путь – путь всадника. Дракон уже ждёт тебя на вершине.",
-            "Связь будет крепка, если сердце открыто, а разум чист.",
-            "Когда пламя погаснет, тьма придёт. Но ты можешь зажечь его снова.",
-            "Ты – наследница древнего рода. Кровь зовёт тебя к алтарям.",
-            "Пророчество сбудется, когда два алтаря соединятся в один.",
-            "Великая ночь близка, но свет победит, если ты не дрогнешь.",
-            "Твоя душа – пустая, но она может стать всем, чем ты пожелаешь.",
-            "Любовь спасёт мир – даже тот, что погружён во тьму.",
-            "Инициация ждёт тебя. Падение станет началом полёта.",
-            "Твой дракон всегда будет с тобой, пока ты веришь в него.",
-            "Ты – Хати, охотница за луной. Твоя цель – нести свет.",
-            "Пламя в твоём сердце никогда не угаснет, даже в самый тёмный час.",
-            "Тьма и свет – две стороны одной мечты. Выбирай свою.",
-            "Ты сильнее, чем думаешь. Помни об этом, когда наступит ночь.",
-            "Судьба – не приговор. Ты сама куёшь свою дорогу.",
-            "Даже пепел хранит искру жизни. Восстань из него.",
-            "Твой союз с драконом – это союз двух миров. Береги его.",
-            "В каждом полукровке живёт целая вселенная. Открой её.",
-            "Когда Шаян посмотрит на тебя, ты узнаешь свою истинную пару.",
-            "Справедливость восторжествует, если ты не отступишь.",
-            "Портал в Сумрачный Двор откроется для того, кто достоин.",
-            "Ты – не просто ученица. Ты – будущая королева.",
-            "Пламя в темноте – это ты. Никогда не забывай об этом."
-        ];
+        // ---------- БАЗА ДАННЫХ КНИГ ----------
+        const booksData = {
+            flame: {
+                title: "Пламя в темноте",
+                theme: "theme-flame",
+                subtitle: "✦ Предсказание судьбы ✦",
+                predictions: [
+                    "Ты – пламя в темноте. Твой свет не погаснет, даже если весь мир объяла тьма.",
+                    "Истинная пара найдёт тебя, когда ты будешь готова принять свою суть.",
+                    "Твой путь – путь всадника. Дракон уже ждёт тебя на вершине.",
+                    "Связь будет крепка, если сердце открыто, а разум чист.",
+                    "Когда пламя погаснет, тьма придёт. Но ты можешь зажечь его снова.",
+                    "Ты – наследница древнего рода. Кровь зовёт тебя к алтарям.",
+                    "Пророчество сбудется, когда два алтаря соединятся в один.",
+                    "Великая ночь близка, но свет победит, если ты не дрогнешь.",
+                    "Твоя душа – пустая, но она может стать всем, чем ты пожелаешь.",
+                    "Любовь спасёт мир – даже тот, что погружён во тьму.",
+                    "Инициация ждёт тебя. Падение станет началом полёта.",
+                    "Твой дракон всегда будет с тобой, пока ты веришь в него.",
+                    "Ты – Хати, охотница за луной. Твоя цель – нести свет.",
+                    "Пламя в твоём сердце никогда не угаснет, даже в самый тёмный час.",
+                    "Тьма и свет – две стороны одной мечты. Выбирай свою.",
+                    "Ты сильнее, чем думаешь. Помни об этом, когда наступит ночь.",
+                    "Судьба – не приговор. Ты сама куёшь свою дорогу.",
+                    "Даже пепел хранит искру жизни. Восстань из него.",
+                    "Твой союз с драконом – это союз двух миров. Береги его.",
+                    "В каждом полукровке живёт целая вселенная. Открой её.",
+                    "Когда Шаян посмотрит на тебя, ты узнаешь свою истинную пару.",
+                    "Справедливость восторжествует, если ты не отступишь.",
+                    "Портал в Сумрачный Двор откроется для того, кто достоин.",
+                    "Ты – не просто ученица. Ты – будущая королева.",
+                    "Пламя в темноте – это ты. Никогда не забывай об этом."
+                ]
+            },
+            steel: {
+                title: "Монстры царства стали",
+                theme: "theme-steel",
+                subtitle: "✦ Стальной жребий ✦",
+                predictions: [
+                    "Сталь в твоих венах не знает пощады, но любовь может расплавить даже самое холодное сердце.",
+                    "Тот, кто предал тебя, получит по заслугам. Судьба уже занесла свой стальной клинок.",
+                    "Ты вернулась из мира Мертвых не для того, чтобы проиграть. Твоя месть будет сладка.",
+                    "Доверься своему дракону, он видит истинную суть вещей и людей.",
+                    "Корона не всегда достается по праву рождения. Иногда её выковывают в крови и пепле.",
+                    "Твоя тень всегда будет следовать за тобой, напоминая о том, кем ты была.",
+                    "Когда сталь коснется твоего сердца, вспомни, ради кого ты держишь клинок.",
+                    "Саргон видит твою истинную суть. Не бойся показать ему свои когти.",
+                    "В этом царстве стали и пепла только монстры могут выжить. Ты — лучший из них.",
+                    "Твое сердце сковано льдом, но пламя страсти способно растопить его.",
+                    "Остерегайся того, кто протягивает тебе руку помощи. Возможно, в ней спрятан нож.",
+                    "Ты — истинная наследница. Кровь Дрейков не обманешь.",
+                    "Когда два дракона сойдутся в небе, мир содрогнется. Ты будешь одной из них.",
+                    "Смерть — это не конец. Это лишь начало новой игры, в которой ты — королева.",
+                    "Тот, кто задумал твое убийство, сам станет статуей в твоем саду.",
+                    "Ты сильнее, чем любой клинок. Твоя ярость — твое оружие."
+                ]
+            },
+            house: {
+                title: "Дом",
+                theme: "theme-house",
+                subtitle: "✦ Шёпот пустыни ✦",
+                predictions: [
+                    "Твой дом там, где бьется сердце близких. Не бойся пустыни, она укажет путь к спасению.",
+                    "Перемещаясь во времени, не забудь, кто ты есть. Твоя сила — в памяти.",
+                    "Песок скроет следы прошлого, но правда всегда выйдет наружу.",
+                    "В каждом конце есть начало. Найди свой свет под желтым небом.",
+                    "Тот, кого ты считаешь врагом, может стать твоим единственным спасением.",
+                    "Дом — это не место. Это люди, которые ждут тебя у порога.",
+                    "В пустыне легко потеряться, но еще легче найти себя.",
+                    "Не бойся смотреть в прошлое, иначе будущее останется закрытой дверью.",
+                    "Твой путь усыпан песком, но твоя воля — сталь. Ты справишься.",
+                    "Иногда, чтобы вернуться домой, нужно пройти через ад.",
+                    "Время — это иллюзия, но любовь — вечна.",
+                    "Секреты прошлого хранят ключи к твоему будущему.",
+                    "Тот, кто пытается тебя остановить, боится твоей силы.",
+                    "Воды океана не смогут смыть твою тоску по дому, но они укажут верный путь.",
+                    "Ты создашь свой собственный дом, в котором будет место для всех, кого ты любишь."
+                ]
+            },
+            sapphires: {
+                title: "Смоль и сапфиры",
+                theme: "theme-sapphires",
+                subtitle: "✦ Тайны ночи ✦",
+                predictions: [
+                    "В мире, полном монстров, питающихся кровью, ты и сама монстр, Лайла. Но любовь способна приручить тьму.",
+                    "Смоль его глаз скрывает сапфиры души. Загляни глубже, прежде чем судить.",
+                    "Твоя тень всегда следует за тобой, но иногда она прячет самое важное.",
+                    "Не бойся окровавленных рук того, кто готов отдать за тебя жизнь.",
+                    "Сапфир на твоем пальце — не просто украшение. Это ключ к его сердцу.",
+                    "Тайны ночи откроются тому, кто не побоится заглянуть в глаза чудовищу.",
+                    "В этом дворце каждый носит маску. Сними свою, и ты найдешь союзников.",
+                    "Киран — не тот, кем кажется. Его тьма — лишь защита от еще большей боли.",
+                    "Доверие — самая редкая драгоценность. Не разбрасывайся ею.",
+                    "Тот, кто охотится на тебя, сам станет твоей добычей.",
+                    "Твоя кровь — это дар, а не проклятие. Научись им пользоваться.",
+                    "В мире, где правят вампиры, твоя человечность — твое главное оружие.",
+                    "Когда смоль смешается с сапфирами, родится нечто новое и прекрасное.",
+                    "Он выкупил твою свободу, но ты забрала его сердце. Честная сделка.",
+                    "Ты — не жертва. Ты — хищник, который еще не понял своей силы."
+                ]
+            }
+        };
 
-        // ---------- ЛОГИКА ПРЕДСКАЗАНИЙ ----------
+        // ---------- ЛОГИКА ЭКРАНОВ ----------
+        let currentBookId = null;
+        
+        const selectionScreen = document.getElementById('selection-screen');
+        const predictionScreen = document.getElementById('prediction-screen');
+        const dragonContainer = document.getElementById('dragon-container');
+        
+        const bookTitleEl = document.getElementById('bookTitle');
+        const bookSubtitleEl = document.getElementById('bookSubtitle');
         const predText = document.getElementById('predictionText');
-        const btn = document.getElementById('btnPredict');
+        const btnPredict = document.getElementById('btnPredict');
+        const btnBack = document.getElementById('btnBack');
 
-        btn.addEventListener('click', () => {
-            const random = Math.floor(Math.random() * predictions.length);
-            const newText = predictions[random];
+        // Обработчики выбора книги
+        document.querySelectorAll('.book-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const bookId = btn.getAttribute('data-book');
+                openBook(bookId);
+            });
+        });
+
+        function openBook(bookId) {
+            currentBookId = bookId;
+            const book = booksData[bookId];
+
+            // Меняем тему (цвета фона и элементов)
+            document.body.className = book.theme;
+            
+            // Обновляем тексты
+            bookTitleEl.textContent = book.title;
+            bookSubtitleEl.textContent = book.subtitle;
+            
+            // Ставим случайное предсказание при входе
+            predText.textContent = getRandomPrediction(book.predictions);
+
+            // Переключаем экраны
+            selectionScreen.classList.remove('active');
+            predictionScreen.classList.add('active');
+            
+            // Показываем дракона
+            dragonContainer.classList.add('visible');
+        }
+
+        function goBack() {
+            // Скрываем экран предсказаний
+            predictionScreen.classList.remove('active');
+            
+            // Показываем экран выбора
+            selectionScreen.classList.add('active');
+            
+            // Прячем дракона
+            dragonContainer.classList.remove('visible');
+            
+            // Возвращаем дефолтную тему (или можно оставить)
+            document.body.className = ''; 
+            
+            currentBookId = null;
+        }
+
+        btnBack.addEventListener('click', goBack);
+
+        // Логика предсказаний
+        function getRandomPrediction(predictionsArray) {
+            const random = Math.floor(Math.random() * predictionsArray.length);
+            return predictionsArray[random];
+        }
+
+        btnPredict.addEventListener('click', () => {
+            if (!currentBookId) return;
+            
+            const book = booksData[currentBookId];
+            const newText = getRandomPrediction(book.predictions);
+            
             predText.classList.add('fade');
             setTimeout(() => {
                 predText.textContent = newText;
@@ -297,12 +626,8 @@
             }, 350);
         });
 
-        window.addEventListener('load', () => {
-            const random = Math.floor(Math.random() * predictions.length);
-            predText.textContent = predictions[random];
-        });
 
-        // ---------- СЛЕДОВАНИЕ ДРАКОНА ЗА КУРСОРОМ ----------
+        // ---------- СЛЕДОВАНИЕ ДРАКОНА ЗА КУРСОРОМ (без изменений) ----------
         const container = document.getElementById('dragon-container');
         const cursorFire = document.getElementById('cursor-fire');
         const dragonImg = document.getElementById('dragonImg');
@@ -345,7 +670,7 @@
         }
         followDragon();
 
-        // ---------- ЗВЁЗДЫ ----------
+        // ---------- ЗВЁЗДЫ (без изменений) ----------
         const starsContainer = document.getElementById('starsContainer');
         for (let i = 0; i < 130; i++) {
             const star = document.createElement('div');
