@@ -5,13 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Книжные предсказания</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        /* ==================== БАЗОВЫЕ ПЕРЕМЕННЫЕ ==================== */
         :root {
             --bg-gradient: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%);
             --card-bg: rgba(15, 15, 15, 0.85);
@@ -23,8 +18,6 @@
             --glow-color: rgba(255, 255, 255, 0.1);
         }
 
-        /* ==================== ТЕМЫ КНИГ ==================== */
-        /* 1. Пламя в темноте */
         body.theme-flame {
             --bg-gradient: radial-gradient(ellipse at center, #0d0505 0%, #050202 50%, #000000 100%);
             --card-bg: rgba(8, 4, 4, 0.82);
@@ -35,8 +28,6 @@
             --btn-bg: linear-gradient(145deg, #2a1a0e, #1a0e06);
             --glow-color: rgba(255, 80, 0, 0.25);
         }
-
-        /* 2. Монстры царства стали */
         body.theme-steel {
             --bg-gradient: radial-gradient(circle at top, #1a1a1f 0%, #050505 100%);
             --card-bg: rgba(18, 18, 20, 0.9);
@@ -47,8 +38,6 @@
             --btn-bg: linear-gradient(145deg, #2e2e32, #151518);
             --glow-color: rgba(168, 42, 42, 0.3);
         }
-
-        /* 3. Дом */
         body.theme-house {
             --bg-gradient: linear-gradient(to bottom, #3d2b10 0%, #0a0802 100%);
             --card-bg: rgba(30, 20, 10, 0.85);
@@ -59,8 +48,6 @@
             --btn-bg: linear-gradient(145deg, #4a3412, #2a1d08);
             --glow-color: rgba(212, 175, 55, 0.2);
         }
-
-        /* 4. Смоль и сапфиры */
         body.theme-sapphires {
             --bg-gradient: radial-gradient(circle at center, #0a1930 0%, #010205 100%);
             --card-bg: rgba(5, 12, 24, 0.88);
@@ -72,7 +59,6 @@
             --glow-color: rgba(26, 68, 161, 0.3);
         }
 
-        /* ==================== ОБЩИЕ СТИЛИ ==================== */
         body {
             min-height: 100vh;
             background: var(--bg-gradient);
@@ -82,43 +68,24 @@
             justify-content: center;
             align-items: center;
             transition: background 1s ease;
-            cursor: none; /* Скрываем стандартный курсор */
+            cursor: none;
         }
 
-        /* Кастомный гиф-курсор */
+        /* ================== КУРСОР ================== */
         #custom-cursor {
             position: fixed;
             pointer-events: none;
             z-index: 9999;
             width: 50px;
             height: 50px;
+            object-fit: contain;
             transform: translate(-50%, -50%);
             display: none;
             filter: drop-shadow(0 0 10px var(--glow-color));
         }
         #custom-cursor.active { display: block; }
 
-        /* ==================== ФОНОВЫЕ ГИФКИ ==================== */
-        #bg-gif-container {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100%;
-            pointer-events: none;
-            z-index: 2;
-            opacity: 0;
-            transition: opacity 1s ease;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-        }
-        #bg-gif-container.active { opacity: 0.35; }
-        
-        #bg-gif-container img {
-            width: 100%; height: 100%; object-fit: cover; display: none;
-        }
-        #bg-gif-container img.active { display: block; }
-
-        /* ==================== ФОНОВЫЕ ЭФФЕКТЫ (CSS) ==================== */
+        /* ================== CSS-ЭФФЕКТЫ ФОНА ================== */
         .bg-effect {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -129,7 +96,6 @@
         }
         .bg-effect.active { opacity: 1; }
 
-        /* Яркие кровавые искры (Монстры) */
         .ash {
             position: absolute; background: #ff4d4d; border-radius: 50%;
             animation: fall linear infinite; opacity: 0.9;
@@ -137,12 +103,10 @@
         }
         @keyframes fall {
             0% { transform: translateY(-100vh) translateX(0) scale(1); opacity: 0; }
-            20% { opacity: 1; }
-            80% { opacity: 1; }
+            20% { opacity: 1; } 80% { opacity: 1; }
             100% { transform: translateY(100vh) translateX(30px) scale(0.5); opacity: 0; }
         }
 
-        /* Золотой песок (Дом) */
         .sand {
             position: absolute; background: #ffd700; border-radius: 2px;
             animation: blow linear infinite; opacity: 0.8;
@@ -150,17 +114,15 @@
         }
         @keyframes blow {
             0% { transform: translateX(-100vw) translateY(0); opacity: 0; }
-            10% { opacity: 1; }
-            90% { opacity: 1; }
+            10% { opacity: 1; } 90% { opacity: 1; }
             100% { transform: translateX(100vw) translateY(20px); opacity: 0; }
         }
 
-        /* Светящийся туман (Смоль) - Движение в стороны */
         .fog {
-            position: absolute; 
+            position: absolute;
             background: radial-gradient(circle, rgba(77, 136, 255, 0.4) 0%, transparent 70%);
             border-radius: 50%;
-            filter: blur(20px); 
+            filter: blur(20px);
             animation: float-side linear infinite alternate;
         }
         @keyframes float-side {
@@ -168,7 +130,7 @@
             100% { transform: translateX(80px) scale(1.2); opacity: 0.7; }
         }
 
-        /* ==================== ЭКРАНЫ ==================== */
+        /* ================== ЭКРАНЫ ================== */
         .screen {
             position: absolute;
             width: 100%; height: 100%;
@@ -179,10 +141,7 @@
         }
         .screen.active { opacity: 1; pointer-events: auto; }
 
-        /* --- ЭКРАН ВЫБОРА --- */
-        .selection-container {
-            text-align: center; width: 90%; max-width: 900px; z-index: 25;
-        }
+        .selection-container { text-align: center; width: 90%; max-width: 900px; z-index: 25; }
         .selection-title {
             color: #fff; font-size: 32px; letter-spacing: 8px;
             text-transform: uppercase; margin-bottom: 40px;
@@ -208,7 +167,6 @@
         .book-btn[data-book="house"]:hover { border-color: #d4af37; color: #f4d03f; }
         .book-btn[data-book="sapphires"]:hover { border-color: #1a44a1; color: #8ab4f8; }
 
-        /* --- ЭКРАН ПРЕДСКАЗАНИЙ --- */
         .card-wrapper { position: relative; z-index: 25; width: 90%; max-width: 560px; }
         .card {
             background: var(--card-bg); backdrop-filter: blur(10px);
@@ -255,7 +213,6 @@
         }
         .btn:hover { transform: translateY(-2px); border-color: var(--accent-color); }
 
-        /* Дракон (только для Пламени) */
         #dragon-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 10; will-change: transform;
@@ -279,22 +236,15 @@
 </head>
 <body class="theme-neutral">
 
-    <!-- Кастомный гиф-курсор -->
-    <img id="custom-cursor" src="" alt="Курсор">
-
-    <!-- ФОНОВЫЕ ГИФКИ -->
-    <div id="bg-gif-container">
-        <img id="gif-steel" src="steel-sparks.gif" alt="Кровавые искры">
-        <img id="gif-house" src="house-hourglass.gif" alt="Песочные часы">
-        <img id="gif-sapphires" src="sapphire-gem.gif" alt="Сапфир">
-    </div>
+    <!-- Кастомный курсор (src подставляется через JS) -->
+    <img id="custom-cursor" alt="Курсор">
 
     <!-- Фоновые CSS-эффекты -->
-    <div id="bg-ash" class="bg-effect"></div>
+    <div id="bg-ash"  class="bg-effect"></div>
     <div id="bg-sand" class="bg-effect"></div>
-    <div id="bg-fog" class="bg-effect"></div>
+    <div id="bg-fog"  class="bg-effect"></div>
 
-    <!-- Дракон (для Пламени) -->
+    <!-- Дракон -->
     <div id="dragon-container">
         <img id="dragonImg" src="dragon.gif" alt="Дракон" draggable="false">
     </div>
@@ -328,15 +278,23 @@
     </div>
 
     <script>
-        // База данных книг
+        /* ============== ВСТРОЕННЫЕ SVG-КУРСОРЫ (fallback) ============== */
+        const SVG_CURSORS = {
+            default:   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Ccircle cx='16' cy='16' r='8' fill='white' opacity='0.45'/%3E%3Ccircle cx='16' cy='16' r='3' fill='white'/%3E%3C/svg%3E",
+            flame:     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Ccircle cx='16' cy='16' r='11' fill='%23ff8c42' opacity='0.6'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23ffcc66'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23ffffff'/%3E%3C/svg%3E",
+            steel:     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Ccircle cx='16' cy='16' r='11' fill='%23a82a2a' opacity='0.6'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23e0e0e5'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23ffffff'/%3E%3C/svg%3E",
+            house:     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Ccircle cx='16' cy='16' r='11' fill='%23d4af37' opacity='0.6'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23f4d03f'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23ffffff'/%3E%3C/svg%3E",
+            sapphires: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Ccircle cx='16' cy='16' r='11' fill='%231a44a1' opacity='0.6'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%238ab4f8'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23ffffff'/%3E%3C/svg%3E"
+        };
+
+        /* ============== БАЗА ДАННЫХ КНИГ ============== */
         const booksData = {
             flame: {
                 title: "Пламя в темноте",
                 theme: "theme-flame",
-                effect: "none", // Убрали фоновые эффекты
-                gif: "none",    // Убрали фоновую гифку
-                cursor: "cursor-flame.gif",
-                dragon: true,   // Оставили только дракона
+                effect: "none",
+                cursor: null,                        // ← только SVG (плюс дракон)
+                dragon: true,
                 predictions: [
                     "Ты – пламя в темноте. Твой свет не погаснет, даже если весь мир объяла тьма.",
                     "Истинная пара найдёт тебя, когда ты будешь готова принять свою суть.",
@@ -369,7 +327,6 @@
                 title: "Монстры царства стали",
                 theme: "theme-steel",
                 effect: "bg-ash",
-                gif: "gif-steel",
                 cursor: "cursor-steel.gif",
                 dragon: false,
                 predictions: [
@@ -408,7 +365,6 @@
                 title: "Дом",
                 theme: "theme-house",
                 effect: "bg-sand",
-                gif: "gif-house",
                 cursor: "cursor-house.gif",
                 dragon: false,
                 predictions: [
@@ -447,8 +403,7 @@
                 title: "Смоль и сапфиры",
                 theme: "theme-sapphires",
                 effect: "bg-fog",
-                gif: "gif-sapphires",
-                cursor: "cursor-sapphire.gif",
+                cursor: "cursor-sapphire.gif",        // ⚠️ sapphire, не sapphires
                 dragon: false,
                 predictions: [
                     "В мире, полном монстров, питающихся кровью, ты и сама монстр, Лайла. Но любовь способна приручить тьму.",
@@ -485,63 +440,81 @@
             }
         };
 
-        // Переменные
+        /* ============== ЭЛЕМЕНТЫ ============== */
         let currentBookId = null;
-        const selectionScreen = document.getElementById('selection-screen');
+        const selectionScreen  = document.getElementById('selection-screen');
         const predictionScreen = document.getElementById('prediction-screen');
-        const dragonContainer = document.getElementById('dragon-container');
-        const bookTitleEl = document.getElementById('bookTitle');
-        const predText = document.getElementById('predictionText');
-        const btnPredict = document.getElementById('btnPredict');
-        const btnBack = document.getElementById('btnBack');
-        const bgGifContainer = document.getElementById('bg-gif-container');
-        const customCursor = document.getElementById('custom-cursor');
+        const dragonContainer  = document.getElementById('dragon-container');
+        const bookTitleEl      = document.getElementById('bookTitle');
+        const predText         = document.getElementById('predictionText');
+        const btnPredict       = document.getElementById('btnPredict');
+        const btnBack          = document.getElementById('btnBack');
+        const customCursor     = document.getElementById('custom-cursor');
 
-        // Генерация фоновых элементов
+        /* ============== КУРСОР ============== */
+        // Курсор по умолчанию — виден всегда (на экране выбора тоже)
+        customCursor.src = SVG_CURSORS.default;
+        customCursor.classList.add('active');
+
+        // Если GIF-курсор не загрузился — подставляем SVG
+        customCursor.addEventListener('error', () => {
+            const key = currentBookId || 'default';
+            if (!customCursor.src.startsWith('data:')) {
+                console.warn(`❌ Курсор "${customCursor.getAttribute('src')}" не найден — использую SVG для "${key}"`);
+                customCursor.src = SVG_CURSORS[key] || SVG_CURSORS.default;
+            }
+        });
+
+        /* ============== ДИАГНОСТИКА ============== */
+        document.getElementById('dragonImg').addEventListener('error', () =>
+            console.warn('❌ Не найден файл: "dragon.gif"')
+        );
+        document.getElementById('dragonImg').addEventListener('load', () =>
+            console.log('✅ Загружен: "dragon.gif"')
+        );
+
+        /* ============== ГЕНЕРАЦИЯ CSS-ЭФФЕКТОВ ============== */
         function generateEffects() {
             const ashCont = document.getElementById('bg-ash');
-            for(let i=0; i<80; i++) { 
-                let a = document.createElement('div');
+            for (let i = 0; i < 80; i++) {
+                const a = document.createElement('div');
                 a.className = 'ash';
-                let size = Math.random()*4+2;
-                a.style.width = size+'px'; a.style.height = size+'px';
-                a.style.left = Math.random()*100+'%';
-                a.style.animationDuration = (Math.random()*4+3)+'s';
-                a.style.animationDelay = (Math.random()*5)+'s';
+                const size = Math.random() * 4 + 2;
+                a.style.width = size + 'px'; a.style.height = size + 'px';
+                a.style.left = Math.random() * 100 + '%';
+                a.style.animationDuration = (Math.random() * 4 + 3) + 's';
+                a.style.animationDelay = (Math.random() * 5) + 's';
                 ashCont.appendChild(a);
             }
-            
             const sandCont = document.getElementById('bg-sand');
-            for(let i=0; i<60; i++) {
-                let s = document.createElement('div');
+            for (let i = 0; i < 60; i++) {
+                const s = document.createElement('div');
                 s.className = 'sand';
-                let size = Math.random()*3+1;
-                s.style.width = size+'px'; s.style.height = size+'px';
-                s.style.top = Math.random()*100+'%';
-                s.style.animationDuration = (Math.random()*3+2)+'s';
-                s.style.animationDelay = (Math.random()*3)+'s';
+                const size = Math.random() * 3 + 1;
+                s.style.width = size + 'px'; s.style.height = size + 'px';
+                s.style.top = Math.random() * 100 + '%';
+                s.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                s.style.animationDelay = (Math.random() * 3) + 's';
                 sandCont.appendChild(s);
             }
-            
             const fogCont = document.getElementById('bg-fog');
-            for(let i=0; i<12; i++) { 
-                let f = document.createElement('div');
+            for (let i = 0; i < 12; i++) {
+                const f = document.createElement('div');
                 f.className = 'fog';
-                let size = Math.random()*300+150;
-                f.style.width = size+'px'; f.style.height = size+'px';
-                f.style.left = Math.random()*100+'%'; f.style.top = Math.random()*100+'%';
-                f.style.animationDuration = (Math.random()*8+8)+'s';
-                f.style.animationDelay = (Math.random()*5)+'s';
+                const size = Math.random() * 300 + 150;
+                f.style.width = size + 'px'; f.style.height = size + 'px';
+                f.style.left = Math.random() * 100 + '%';
+                f.style.top = Math.random() * 100 + '%';
+                f.style.animationDuration = (Math.random() * 8 + 8) + 's';
+                f.style.animationDelay = (Math.random() * 5) + 's';
                 fogCont.appendChild(f);
             }
         }
         generateEffects();
 
-        // Обработчики кнопок
+        /* ============== КНОПКИ ============== */
         document.querySelectorAll('.book-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                openBook(btn.getAttribute('data-book'));
-            });
+            btn.addEventListener('click', () => openBook(btn.getAttribute('data-book')));
         });
 
         function openBook(bookId) {
@@ -550,32 +523,21 @@
 
             document.body.className = book.theme;
 
-            // Включаем CSS-эффекты (если они есть)
+            // CSS-эффект
             document.querySelectorAll('.bg-effect').forEach(el => el.classList.remove('active'));
-            if (book.effect !== "none") {
-                document.getElementById(book.effect).classList.add('active');
-            }
+            if (book.effect !== "none") document.getElementById(book.effect).classList.add('active');
 
-            // Включаем фоновую гифку (если она есть)
-            document.querySelectorAll('#bg-gif-container img').forEach(img => img.classList.remove('active'));
-            if (book.gif !== "none") {
-                bgGifContainer.classList.add('active');
-                const targetGif = document.getElementById(book.gif);
-                if (targetGif) targetGif.classList.add('active');
+            // Курсор: GIF если задан, иначе SVG для книги
+            if (book.cursor) {
+                customCursor.src = book.cursor;
             } else {
-                bgGifContainer.classList.remove('active');
+                customCursor.src = SVG_CURSORS[bookId] || SVG_CURSORS.default;
             }
-
-            // Включаем кастомный гиф-курсор
-            customCursor.src = book.cursor;
             customCursor.classList.add('active');
 
-            // Дракон (только для Пламени)
-            if (book.dragon) {
-                dragonContainer.classList.add('visible');
-            } else {
-                dragonContainer.classList.remove('visible');
-            }
+            // Дракон
+            if (book.dragon) dragonContainer.classList.add('visible');
+            else             dragonContainer.classList.remove('visible');
 
             bookTitleEl.textContent = book.title;
             predText.textContent = getRandomPrediction(book.predictions);
@@ -587,14 +549,13 @@
         function goBack() {
             predictionScreen.classList.remove('active');
             selectionScreen.classList.add('active');
-            
+
             document.body.className = 'theme-neutral';
             document.querySelectorAll('.bg-effect').forEach(el => el.classList.remove('active'));
-            bgGifContainer.classList.remove('active');
             dragonContainer.classList.remove('visible');
-            customCursor.classList.remove('active');
-            
+
             currentBookId = null;
+            customCursor.src = SVG_CURSORS.default;
         }
 
         btnBack.addEventListener('click', goBack);
@@ -613,24 +574,21 @@
             }, 350);
         });
 
-        // Движение курсора и дракона
+        /* ============== ДВИЖЕНИЕ КУРСОРА И ДРАКОНА ============== */
         let targetX = window.innerWidth / 2, targetY = window.innerHeight / 2;
         let currentX = targetX, currentY = targetY;
 
         document.addEventListener('mousemove', (e) => {
-            targetX = e.clientX; 
+            targetX = e.clientX;
             targetY = e.clientY;
-            
-            // Курсор двигается мгновенно
             customCursor.style.left = targetX + 'px';
-            customCursor.style.top = targetY + 'px';
+            customCursor.style.top  = targetY + 'px';
         });
 
-        // Дракон плавно догоняет курсор
         function animate() {
             const dx = targetX - currentX;
             const dy = targetY - currentY;
-            currentX += dx * 0.1; 
+            currentX += dx * 0.1;
             currentY += dy * 0.1;
             dragonContainer.style.transform = `translate(${currentX - 150}px, ${currentY - 125}px)`;
             requestAnimationFrame(animate);
