@@ -11,20 +11,21 @@
             box-sizing: border-box;
         }
 
-        /* ==================== ПЕРЕМЕННЫЕ ТЕМ ==================== */
+        /* ==================== БАЗОВЫЕ ПЕРЕМЕННЫЕ ==================== */
         :root {
-            /* Тема по умолчанию */
-            --bg-gradient: radial-gradient(ellipse at center, #0d0505 0%, #050202 50%, #000000 100%);
-            --card-bg: rgba(8, 4, 4, 0.82);
-            --card-border: rgba(200, 120, 50, 0.25);
-            --title-color: #e8c39e;
-            --text-color: #f0e0d0;
-            --accent-color: #d49c6b;
-            --btn-bg: linear-gradient(145deg, #2a1a0e, #1a0e06);
-            --flame-color-1: rgba(255, 80, 0, 0.25);
-            --flame-color-2: rgba(255, 150, 0, 0.20);
+            --bg-gradient: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%);
+            --card-bg: rgba(15, 15, 15, 0.85);
+            --card-border: rgba(255, 255, 255, 0.1);
+            --title-color: #ffffff;
+            --text-color: #cccccc;
+            --accent-color: #888888;
+            --btn-bg: linear-gradient(145deg, #222, #111);
+            --glow-color: rgba(255, 255, 255, 0.1);
+            --cursor-url: url('cursor-neutral.png');
         }
 
+        /* ==================== ТЕМЫ КНИГ ==================== */
+        /* 1. Пламя в темноте */
         body.theme-flame {
             --bg-gradient: radial-gradient(ellipse at center, #0d0505 0%, #050202 50%, #000000 100%);
             --card-bg: rgba(8, 4, 4, 0.82);
@@ -33,47 +34,47 @@
             --text-color: #f0e0d0;
             --accent-color: #d49c6b;
             --btn-bg: linear-gradient(145deg, #2a1a0e, #1a0e06);
-            --flame-color-1: rgba(255, 80, 0, 0.25);
-            --flame-color-2: rgba(255, 150, 0, 0.20);
+            --glow-color: rgba(255, 80, 0, 0.25);
+            --cursor-url: url('cursor-flame.png');
         }
 
+        /* 2. Монстры царства стали */
         body.theme-steel {
-            /* Монстры царства стали */
-            --bg-gradient: radial-gradient(ellipse at center, #1c1c1f 0%, #0a0a0c 60%, #000 100%);
-            --card-bg: rgba(15, 15, 18, 0.9);
-            --card-border: rgba(180, 180, 190, 0.3);
-            --title-color: #d0d0d5;
-            --text-color: #b0b0b5;
+            --bg-gradient: radial-gradient(circle at top, #2a2a30 0%, #0a0a0c 100%);
+            --card-bg: rgba(18, 18, 20, 0.9);
+            --card-border: rgba(168, 42, 42, 0.4);
+            --title-color: #e0e0e5;
+            --text-color: #a0a0a5;
             --accent-color: #a82a2a;
-            --btn-bg: linear-gradient(145deg, #2a2a2e, #151518);
-            --flame-color-1: rgba(168, 42, 42, 0.25);
-            --flame-color-2: rgba(80, 80, 90, 0.2);
+            --btn-bg: linear-gradient(145deg, #2e2e32, #151518);
+            --glow-color: rgba(168, 42, 42, 0.3);
+            --cursor-url: url('cursor-steel.png');
         }
 
+        /* 3. Дом */
         body.theme-house {
-            /* Дом */
-            --bg-gradient: radial-gradient(ellipse at center, #3d2b10 0%, #1a1205 60%, #0a0802 100%);
+            --bg-gradient: linear-gradient(to bottom, #4a3818 0%, #1a1205 100%);
             --card-bg: rgba(30, 20, 10, 0.85);
             --card-border: rgba(212, 175, 55, 0.3);
             --title-color: #f4d03f;
             --text-color: #e0c080;
             --accent-color: #d4af37;
             --btn-bg: linear-gradient(145deg, #4a3412, #2a1d08);
-            --flame-color-1: rgba(212, 175, 55, 0.25);
-            --flame-color-2: rgba(255, 220, 100, 0.15);
+            --glow-color: rgba(212, 175, 55, 0.2);
+            --cursor-url: url('cursor-house.png');
         }
 
+        /* 4. Смоль и сапфиры */
         body.theme-sapphires {
-            /* Смоль и сапфиры */
-            --bg-gradient: radial-gradient(ellipse at center, #050b14 0%, #020408 60%, #000 100%);
+            --bg-gradient: radial-gradient(circle at center, #071226 0%, #010205 100%);
             --card-bg: rgba(5, 12, 24, 0.88);
             --card-border: rgba(26, 68, 161, 0.4);
             --title-color: #8ab4f8;
             --text-color: #a0c0e0;
             --accent-color: #1a44a1;
             --btn-bg: linear-gradient(145deg, #0d1f3d, #050b14);
-            --flame-color-1: rgba(26, 68, 161, 0.25);
-            --flame-color-2: rgba(138, 180, 248, 0.15);
+            --glow-color: rgba(26, 68, 161, 0.3);
+            --cursor-url: url('cursor-sapphire.png');
         }
 
         /* ==================== ОБЩИЕ СТИЛИ ==================== */
@@ -82,372 +83,232 @@
             background: var(--bg-gradient);
             font-family: 'Georgia', 'Times New Roman', serif;
             overflow: hidden;
-            cursor: none;
             display: flex;
             justify-content: center;
             align-items: center;
-            transition: background 0.6s ease;
+            transition: background 1s ease;
+            /* Меняем системный курсор на картинку */
+            cursor: var(--cursor-url), auto; 
         }
 
-        /* Контейнер дракона */
-        #dragon-container {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            pointer-events: none;
-            z-index: 10;
-            will-change: transform;
-            transition: transform 0.06s ease-out;
-            opacity: 0; /* Скрыт на экране выбора */
-            transition: opacity 0.5s ease, transform 0.06s ease-out;
-        }
-
-        #dragon-container.visible {
-            opacity: 1;
-        }
-
-        #dragon-container img {
-            display: block;
-            width: 300px;
-            height: auto;
-            filter: drop-shadow(0 0 40px var(--flame-color-1));
-            image-rendering: auto;
-            transform-origin: center;
-        }
-
-        /* Кастомный курсор */
-        #cursor-fire {
+        /* Кастомный "светящийся" курсор (следует за мышкой) */
+        #cursor-glow {
             position: fixed;
             pointer-events: none;
             z-index: 9999;
-            width: 50px;
-            height: 50px;
-            background: radial-gradient(circle, var(--accent-color) 0%, transparent 70%);
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, var(--accent-color) 0%, transparent 60%);
             border-radius: 50%;
             transform: translate(-50%, -50%);
             mix-blend-mode: screen;
-            filter: blur(8px);
-            opacity: 0.7;
+            filter: blur(10px);
+            opacity: 0.6;
+            transition: background 1s ease;
         }
 
-        /* Звёзды */
-        .stars {
+        /* ==================== ФОНОВЫЕ ЭФФЕКТЫ ==================== */
+        .bg-effect {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
+            top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none;
             z-index: 1;
+            opacity: 0;
+            transition: opacity 1s ease;
         }
+        .bg-effect.active { opacity: 1; }
+
+        /* Звезды (для Пламени) */
         .star {
-            position: absolute;
-            background: #fff;
-            border-radius: 50%;
-            animation: twinkle var(--duration) ease-in-out infinite alternate;
-            box-shadow: 0 0 6px rgba(255, 215, 150, 0.5);
+            position: absolute; background: #fff; border-radius: 50%;
+            animation: twinkle var(--duration) infinite alternate;
+            box-shadow: 0 0 6px rgba(255, 215, 150, 0.8);
         }
         @keyframes twinkle {
-            0% { opacity: 0.15; transform: scale(0.8); }
+            0% { opacity: 0.2; transform: scale(0.8); }
             100% { opacity: 1; transform: scale(1.2); }
         }
 
-        /* Пламя внизу */
-        .flames {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 140px;
-            pointer-events: none;
-            z-index: 1;
-            background: radial-gradient(ellipse at 30% 100%, var(--flame-color-1) 0%, transparent 70%),
-                        radial-gradient(ellipse at 70% 100%, var(--flame-color-2) 0%, transparent 70%);
-            animation: flicker 3s infinite alternate;
-            transition: background 0.6s ease;
+        /* Летящий пепел (для Монстров) */
+        .ash {
+            position: absolute; background: #a82a2a; border-radius: 50%;
+            animation: fall linear infinite; opacity: 0.6;
         }
-        @keyframes flicker {
-            0% { opacity: 0.4; }
-            100% { opacity: 0.9; }
+        @keyframes fall {
+            0% { transform: translateY(-100vh) translateX(0); opacity: 0; }
+            20% { opacity: 0.8; }
+            100% { transform: translateY(100vh) translateX(50px); opacity: 0; }
+        }
+
+        /* Песок (для Дома) */
+        .sand {
+            position: absolute; background: #d4af37; border-radius: 2px;
+            animation: blow linear infinite; opacity: 0.4;
+        }
+        @keyframes blow {
+            0% { transform: translateX(-100vw) translateY(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateX(100vw) translateY(20px); opacity: 0; }
+        }
+
+        /* Туман/Дымка (для Смоль) */
+        .fog {
+            position: absolute; background: #1a44a1; border-radius: 50%;
+            filter: blur(30px); opacity: 0.15;
+            animation: float linear infinite alternate;
+        }
+        @keyframes float {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(50px, -50px); }
         }
 
         /* ==================== ЭКРАНЫ ==================== */
         .screen {
             position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
+            width: 100%; height: 100%;
+            display: flex; justify-content: center; align-items: center;
+            opacity: 0; pointer-events: none;
             transition: opacity 0.5s ease;
             z-index: 20;
         }
+        .screen.active { opacity: 1; pointer-events: auto; }
 
-        .screen.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        /* ==================== ЭКРАН ВЫБОРА КНИГ ==================== */
+        /* --- ЭКРАН ВЫБОРА --- */
         .selection-container {
-            text-align: center;
-            width: 90%;
-            max-width: 900px;
-            z-index: 25;
+            text-align: center; width: 90%; max-width: 900px; z-index: 25;
         }
-
         .selection-title {
-            color: #fff;
-            font-size: 32px;
-            letter-spacing: 8px;
-            text-transform: uppercase;
-            margin-bottom: 40px;
+            color: #fff; font-size: 32px; letter-spacing: 8px;
+            text-transform: uppercase; margin-bottom: 40px;
             text-shadow: 0 0 20px rgba(255,255,255,0.3);
-            font-family: 'Palatino', 'Georgia', serif;
         }
-
         .books-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px;
         }
-
         .book-btn {
-            background: rgba(0, 0, 0, 0.6);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            border-radius: 20px;
-            padding: 30px 20px;
-            color: #fff;
-            font-family: 'Georgia', serif;
-            font-size: 18px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            backdrop-filter: blur(5px);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 150px;
+            background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px; padding: 30px 20px; color: #fff;
+            font-family: 'Georgia', serif; font-size: 18px; cursor: pointer;
+            transition: all 0.3s ease; height: 150px;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
-
-        .book-btn span {
-            font-size: 14px;
-            opacity: 0.6;
-            margin-top: 10px;
-            font-style: italic;
-        }
-
+        .book-btn span { font-size: 14px; opacity: 0.5; margin-top: 10px; font-style: italic; }
         .book-btn:hover {
-            transform: translateY(-5px);
-            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-5px); background: rgba(255, 255, 255, 0.05);
             box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
+        .book-btn[data-book="flame"]:hover { border-color: #e8c39e; color: #e8c39e; }
+        .book-btn[data-book="steel"]:hover { border-color: #a82a2a; color: #d0d0d5; }
+        .book-btn[data-book="house"]:hover { border-color: #d4af37; color: #f4d03f; }
+        .book-btn[data-book="sapphires"]:hover { border-color: #1a44a1; color: #8ab4f8; }
 
-        .book-btn[data-book="flame"]:hover { border-color: #e8c39e; color: #e8c39e; box-shadow: 0 0 20px rgba(232, 195, 158, 0.2); }
-        .book-btn[data-book="steel"]:hover { border-color: #a82a2a; color: #d0d0d5; box-shadow: 0 0 20px rgba(168, 42, 42, 0.2); }
-        .book-btn[data-book="house"]:hover { border-color: #d4af37; color: #f4d03f; box-shadow: 0 0 20px rgba(212, 175, 55, 0.2); }
-        .book-btn[data-book="sapphires"]:hover { border-color: #1a44a1; color: #8ab4f8; box-shadow: 0 0 20px rgba(26, 68, 161, 0.2); }
-
-        /* ==================== КАРТОЧКА ПРЕДСКАЗАНИЙ ==================== */
-        .card-wrapper {
-            position: relative;
-            z-index: 25;
-            width: 90%;
-            max-width: 560px;
-        }
-
+        /* --- ЭКРАН ПРЕДСКАЗАНИЙ --- */
+        .card-wrapper { position: relative; z-index: 25; width: 90%; max-width: 560px; }
         .card {
-            background: var(--card-bg);
-            backdrop-filter: blur(14px);
-            -webkit-backdrop-filter: blur(14px);
-            border: 1px solid var(--card-border);
-            border-radius: 32px;
-            padding: 32px 24px 38px;
-            text-align: center;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.95), 0 0 80px var(--flame-color-1);
-            pointer-events: auto;
-            transition: all 0.6s ease;
-            position: relative;
+            background: var(--card-bg); backdrop-filter: blur(10px);
+            border: 1px solid var(--card-border); border-radius: 25px;
+            padding: 35px 25px; text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 60px var(--glow-color);
+            transition: all 0.6s ease; position: relative;
         }
-
         .back-btn {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            background: transparent;
-            border: 1px solid var(--card-border);
-            color: var(--accent-color);
-            padding: 8px 15px;
-            border-radius: 20px;
-            cursor: pointer;
-            font-family: 'Georgia', serif;
-            font-size: 14px;
+            position: absolute; top: 20px; left: 20px;
+            background: transparent; border: 1px solid var(--card-border);
+            color: var(--accent-color); padding: 8px 15px; border-radius: 20px;
+            cursor: pointer; font-family: 'Georgia', serif; font-size: 14px;
             transition: all 0.3s;
         }
-
-        .back-btn:hover {
-            background: var(--btn-bg);
-            border-color: var(--accent-color);
-        }
-
+        .back-btn:hover { background: var(--btn-bg); border-color: var(--accent-color); }
         .card h1 {
-            font-size: 28px;
-            letter-spacing: 4px;
-            text-transform: uppercase;
-            color: var(--title-color);
-            text-shadow: 0 0 25px var(--flame-color-1);
-            margin-bottom: 4px;
-            margin-top: 10px;
-            font-family: 'Palatino', 'Georgia', serif;
-            transition: color 0.6s;
+            font-size: 26px; letter-spacing: 3px; text-transform: uppercase;
+            color: var(--title-color); text-shadow: 0 0 20px var(--glow-color);
+            margin-bottom: 5px; margin-top: 15px; transition: color 0.6s;
         }
-
         .card .author {
-            font-size: 17px;
-            letter-spacing: 7px;
-            color: var(--accent-color);
-            opacity: 0.8;
-            font-style: italic;
-            border-bottom: 1px solid var(--card-border);
-            padding-bottom: 14px;
-            margin-bottom: 22px;
-            transition: color 0.6s;
+            font-size: 16px; letter-spacing: 6px; color: var(--accent-color);
+            font-style: italic; border-bottom: 1px solid var(--card-border);
+            padding-bottom: 15px; margin-bottom: 20px; transition: color 0.6s;
         }
-
-        .card .subtitle {
-            font-size: 13px;
-            letter-spacing: 5px;
-            color: var(--accent-color);
-            opacity: 0.6;
-            margin-bottom: 22px;
-            font-style: italic;
-            transition: color 0.6s;
-        }
-
         .prediction-box {
-            min-height: 120px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 14px 12px;
-            margin-bottom: 24px;
-            border-radius: 16px;
-            background: rgba(0, 0, 0, 0.35);
-            border: 1px solid var(--card-border);
+            min-height: 140px; display: flex; align-items: center; justify-content: center;
+            padding: 15px; margin-bottom: 25px; border-radius: 15px;
+            background: rgba(0, 0, 0, 0.4); border: 1px solid var(--card-border);
             transition: border 0.6s;
         }
-
         .prediction-text {
-            font-size: 20px;
-            line-height: 1.5;
-            color: var(--text-color);
-            font-style: italic;
-            font-weight: 300;
-            text-shadow: 0 0 30px var(--flame-color-2);
+            font-size: 19px; line-height: 1.5; color: var(--text-color);
+            font-style: italic; text-shadow: 0 0 20px var(--glow-color);
             transition: opacity 0.4s ease, transform 0.4s ease, color 0.6s;
         }
-
-        .prediction-text.fade {
-            opacity: 0;
-            transform: scale(0.95);
-        }
-
+        .prediction-text.fade { opacity: 0; transform: scale(0.95); }
         .btn {
-            padding: 13px 38px;
-            background: var(--btn-bg);
-            color: var(--title-color);
-            font-size: 17px;
-            font-family: 'Georgia', serif;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-            border: 1px solid var(--card-border);
-            border-radius: 50px;
-            cursor: pointer;
-            transition: all 0.25s;
-            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.6);
+            padding: 14px 40px; background: var(--btn-bg); color: var(--title-color);
+            font-size: 16px; font-family: 'Georgia', serif; letter-spacing: 2px;
+            text-transform: uppercase; border: 1px solid var(--card-border);
+            border-radius: 50px; cursor: pointer; transition: all 0.3s;
+        }
+        .btn:hover { transform: translateY(-2px); border-color: var(--accent-color); }
+
+        /* Дракон (показывается только в Пламени) */
+        #dragon-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none; z-index: 10; will-change: transform;
+            opacity: 0; transition: opacity 0.5s ease;
+        }
+        #dragon-container.visible { opacity: 1; }
+        #dragon-container img {
+            display: block; width: 300px; height: auto;
+            filter: drop-shadow(0 0 30px rgba(255, 80, 0, 0.5));
         }
 
-        .btn:hover {
-            transform: translateY(-2px);
-            border-color: var(--accent-color);
-            box-shadow: 0 0 50px var(--flame-color-1);
-        }
-
-        .btn:active {
-            transform: translateY(0px);
-        }
-
-        /* Адаптив */
         @media (max-width: 640px) {
-            #dragon-container img { width: 200px; }
-            .card { padding: 24px 16px 30px; }
-            .card h1 { font-size: 22px; letter-spacing: 2px; }
-            .card .author { font-size: 14px; letter-spacing: 4px; }
-            .prediction-text { font-size: 17px; }
-            .btn { font-size: 14px; padding: 11px 28px; }
-            #cursor-fire { width: 30px; height: 30px; filter: blur(5px); }
-            .selection-title { font-size: 24px; letter-spacing: 4px; }
+            #dragon-container img { width: 180px; }
+            .card { padding: 25px 15px; }
+            .card h1 { font-size: 20px; }
+            .prediction-text { font-size: 16px; }
             .books-grid { grid-template-columns: 1fr; }
-        }
-
-        @media (max-width: 400px) {
-            #dragon-container img { width: 150px; }
         }
     </style>
 </head>
-<body>
+<body class="theme-neutral">
 
-    <!-- Фоны -->
-    <div class="stars" id="starsContainer"></div>
-    <div class="flames"></div>
-    <div id="cursor-fire"></div>
+    <!-- Фоновые эффекты -->
+    <div id="bg-stars" class="bg-effect"></div>
+    <div id="bg-ash" class="bg-effect"></div>
+    <div id="bg-sand" class="bg-effect"></div>
+    <div id="bg-fog" class="bg-effect"></div>
 
-    <!-- Дракон (показывается только на экране предсказаний) -->
+    <!-- Светящийся курсор -->
+    <div id="cursor-glow"></div>
+
+    <!-- Дракон -->
     <div id="dragon-container">
         <img id="dragonImg" src="dragon.gif" alt="Дракон" draggable="false">
     </div>
 
-    <!-- ЭКРАН 1: ВЫБОР КНИГИ (по умолчанию активен) -->
+    <!-- ЭКРАН 1: ВЫБОР -->
     <div id="selection-screen" class="screen active">
         <div class="selection-container">
             <h1 class="selection-title">Выберите историю</h1>
             <div class="books-grid">
-                <button class="book-btn" data-book="flame">
-                    Пламя в темноте
-                    <span>Таня Нордсвей</span>
-                </button>
-                <button class="book-btn" data-book="steel">
-                    Монстры царства стали
-                    <span>Таня Нордсвей</span>
-                </button>
-                <button class="book-btn" data-book="house">
-                    Дом
-                    <span>Таня Нордсвей</span>
-                </button>
-                <button class="book-btn" data-book="sapphires">
-                    Смоль и сапфиры
-                    <span>Таня Нордсвей</span>
-                </button>
+                <button class="book-btn" data-book="flame">Пламя в темноте<span>Таня Нордсвей</span></button>
+                <button class="book-btn" data-book="steel">Монстры царства стали<span>Таня Нордсвей</span></button>
+                <button class="book-btn" data-book="house">Дом<span>Таня Нордсвей</span></button>
+                <button class="book-btn" data-book="sapphires">Смоль и сапфиры<span>Таня Нордсвей</span></button>
             </div>
         </div>
     </div>
 
-    <!-- ЭКРАН 2: ПРЕДСКАЗАНИЯ (по умолчанию скрыт) -->
+    <!-- ЭКРАН 2: ПРЕДСКАЗАНИЯ -->
     <div id="prediction-screen" class="screen">
         <div class="card-wrapper">
             <div class="card">
                 <button class="back-btn" id="btnBack">← Назад</button>
-                <h1 id="bookTitle">Пламя в темноте</h1>
+                <h1 id="bookTitle">Название</h1>
                 <div class="author">Таня Нордсвей</div>
-                <div class="subtitle" id="bookSubtitle">✦ Предсказание судьбы ✦</div>
                 <div class="prediction-box">
-                    <div class="prediction-text" id="predictionText">Нажми на кнопку, чтобы узнать свою судьбу</div>
+                    <div class="prediction-text" id="predictionText">Нажмите на кнопку...</div>
                 </div>
                 <button class="btn" id="btnPredict">Получить предсказание</button>
             </div>
@@ -455,12 +316,13 @@
     </div>
 
     <script>
-        // ---------- БАЗА ДАННЫХ КНИГ ----------
+        // База данных книг
         const booksData = {
             flame: {
                 title: "Пламя в темноте",
                 theme: "theme-flame",
-                subtitle: "✦ Предсказание судьбы ✦",
+                effect: "bg-stars",
+                dragon: true,
                 predictions: [
                     "Ты – пламя в темноте. Твой свет не погаснет, даже если весь мир объяла тьма.",
                     "Истинная пара найдёт тебя, когда ты будешь готова принять свою суть.",
@@ -492,7 +354,8 @@
             steel: {
                 title: "Монстры царства стали",
                 theme: "theme-steel",
-                subtitle: "✦ Стальной жребий ✦",
+                effect: "bg-ash",
+                dragon: false,
                 predictions: [
                     "Сталь в твоих венах не знает пощады, но любовь может расплавить даже самое холодное сердце.",
                     "Тот, кто предал тебя, получит по заслугам. Судьба уже занесла свой стальной клинок.",
@@ -509,13 +372,27 @@
                     "Когда два дракона сойдутся в небе, мир содрогнется. Ты будешь одной из них.",
                     "Смерть — это не конец. Это лишь начало новой игры, в которой ты — королева.",
                     "Тот, кто задумал твое убийство, сам станет статуей в твоем саду.",
-                    "Ты сильнее, чем любой клинок. Твоя ярость — твое оружие."
+                    "Ты сильнее, чем любой клинок. Твоя ярость — твое оружие.",
+                    "Пусть твой враг думает, что победил. Сталь всегда наносит удар внезапно.",
+                    "Ты создана из пепла и боли, но именно это делает тебя несокрушимой.",
+                    "Твоя кровь помнит древнюю магию. Позволь ей вести тебя.",
+                    "Не бойся тьмы внутри себя. Она — твой главный союзник в этой войне.",
+                    "Каждый шрам на твоем теле — это история выживания. Гордись ими.",
+                    "Когда придет время, ты узнаешь правду. И она освободит тебя.",
+                    "Судьба свела вас не случайно. Саргон — ключ к твоему прошлому и будущему.",
+                    "Тот, кто хочет сломать тебя, сам сломается о твою стальную волю.",
+                    "Ты не просто пешка. Ты — игрок, который скоро перевернет всю доску.",
+                    "Твоя сила — в способности возрождаться из пепла снова и снова.",
+                    "Месть — это блюдо, которое подают холодным. Но твоя сталь уже раскалена.",
+                    "Доверься своей интуиции. Она никогда тебя не подводила.",
+                    "В конце пути тебя ждет не просто трон, а свобода, которую ты заслужила."
                 ]
             },
             house: {
                 title: "Дом",
                 theme: "theme-house",
-                subtitle: "✦ Шёпот пустыни ✦",
+                effect: "bg-sand",
+                dragon: false,
                 predictions: [
                     "Твой дом там, где бьется сердце близких. Не бойся пустыни, она укажет путь к спасению.",
                     "Перемещаясь во времени, не забудь, кто ты есть. Твоя сила — в памяти.",
@@ -531,13 +408,28 @@
                     "Секреты прошлого хранят ключи к твоему будущему.",
                     "Тот, кто пытается тебя остановить, боится твоей силы.",
                     "Воды океана не смогут смыть твою тоску по дому, но они укажут верный путь.",
-                    "Ты создашь свой собственный дом, в котором будет место для всех, кого ты любишь."
+                    "Ты создашь свой собственный дом, в котором будет место для всех, кого ты любишь.",
+                    "Тот, кто выжил в пустыне, сможет выжить где угодно. Ты уже победитель.",
+                    "Твоя находчивость — твой главный козырь. Используй её.",
+                    "Не все монстры выглядят как чудовища. Иногда они предлагают тебе воду.",
+                    "Твой брат всегда будет в твоем сердце. Он — твой компас.",
+                    "Время лечит, но оно же и открывает старые раны. Будь готова.",
+                    "Тот, кто ищет тебя, возможно, ищет не то, что ты думаешь.",
+                    "Твой путь домой лежит через принятие себя.",
+                    "Каждый шаг по песку приближает тебя к разгадке.",
+                    "Ты сильнее, чем кажешься. Пустыня проверяет на прочность.",
+                    "Не бойся одиночества. Иногда именно в тишине приходят ответы.",
+                    "Твой дом ждет тебя. Всё остальное — лишь декорации.",
+                    "Когда ты найдешь свой дом, ты поймешь, зачем все это было.",
+                    "Ты — свет в пустыне. Не дай ему погаснуть.",
+                    "Верь в себя. Пустыня не терпит сомнений."
                 ]
             },
             sapphires: {
                 title: "Смоль и сапфиры",
                 theme: "theme-sapphires",
-                subtitle: "✦ Тайны ночи ✦",
+                effect: "bg-fog",
+                dragon: false,
                 predictions: [
                     "В мире, полном монстров, питающихся кровью, ты и сама монстр, Лайла. Но любовь способна приручить тьму.",
                     "Смоль его глаз скрывает сапфиры души. Загляни глубже, прежде чем судить.",
@@ -553,150 +445,173 @@
                     "В мире, где правят вампиры, твоя человечность — твое главное оружие.",
                     "Когда смоль смешается с сапфирами, родится нечто новое и прекрасное.",
                     "Он выкупил твою свободу, но ты забрала его сердце. Честная сделка.",
-                    "Ты — не жертва. Ты — хищник, который еще не понял своей силы."
+                    "Ты — не жертва. Ты — хищник, который еще не понял своей силы.",
+                    "Луна знает твои секреты. Доверься её свету.",
+                    "Тот, кто боится тебя, не сможет причинить тебе вреда.",
+                    "В темноте легче скрыть свою сущность. Но помни, кто ты.",
+                    "Твоя жизнь стоит больше, чем миллион таллинов. Ты бесценна.",
+                    "Киран не бросит тебя. Даже в самой кромешной тьме он будет рядом.",
+                    "Не позволяй прошлому диктовать твое будущее. Ты сильнее.",
+                    "Ищейка найдет тебя, где бы ты ни была. Но найдет ли он твое сердце?",
+                    "Твоя уязвимость — это не слабость. Это твоя сила.",
+                    "Тот, кто хочет тебя использовать, сам станет инструментом в твоих руках.",
+                    "Ночь скрывает много тайн. Но твоя тайна — самая опасная.",
+                    "Когда придет время, ты узнаешь, кому можно доверять. А кому — нет.",
+                    "Твоя сила — в способности выживать там, где другие сдаются.",
+                    "Любовь вампира — это навсегда. Готова ли ты к этому?",
+                    "Ты — не просто игрушка в его руках. Ты — его спасение.",
+                    "В конце концов, ты сама решишь, кем тебе быть: жертвой или хищником."
                 ]
             }
         };
 
-        // ---------- ЛОГИКА ЭКРАНОВ ----------
+        // Переменные
         let currentBookId = null;
-        
         const selectionScreen = document.getElementById('selection-screen');
         const predictionScreen = document.getElementById('prediction-screen');
         const dragonContainer = document.getElementById('dragon-container');
-        
         const bookTitleEl = document.getElementById('bookTitle');
-        const bookSubtitleEl = document.getElementById('bookSubtitle');
         const predText = document.getElementById('predictionText');
         const btnPredict = document.getElementById('btnPredict');
         const btnBack = document.getElementById('btnBack');
 
-        // Обработчики выбора книги
+        // Функция для генерации фоновых элементов
+        function generateEffects() {
+            // Звезды
+            const starsCont = document.getElementById('bg-stars');
+            for(let i=0; i<100; i++) {
+                let s = document.createElement('div');
+                s.className = 'star';
+                let size = Math.random()*2+1;
+                s.style.width = size+'px'; s.style.height = size+'px';
+                s.style.left = Math.random()*100+'%'; s.style.top = Math.random()*100+'%';
+                s.style.setProperty('--duration', (Math.random()*3+2)+'s');
+                starsCont.appendChild(s);
+            }
+            // Пепел
+            const ashCont = document.getElementById('bg-ash');
+            for(let i=0; i<50; i++) {
+                let a = document.createElement('div');
+                a.className = 'ash';
+                let size = Math.random()*3+1;
+                a.style.width = size+'px'; a.style.height = size+'px';
+                a.style.left = Math.random()*100+'%';
+                a.style.animationDuration = (Math.random()*5+5)+'s';
+                a.style.animationDelay = (Math.random()*5)+'s';
+                ashCont.appendChild(a);
+            }
+            // Песок
+            const sandCont = document.getElementById('bg-sand');
+            for(let i=0; i<60; i++) {
+                let s = document.createElement('div');
+                s.className = 'sand';
+                let size = Math.random()*2+1;
+                s.style.width = size+'px'; s.style.height = size+'px';
+                s.style.top = Math.random()*100+'%';
+                s.style.animationDuration = (Math.random()*3+2)+'s';
+                s.style.animationDelay = (Math.random()*3)+'s';
+                sandCont.appendChild(s);
+            }
+            // Туман
+            const fogCont = document.getElementById('bg-fog');
+            for(let i=0; i<10; i++) {
+                let f = document.createElement('div');
+                f.className = 'fog';
+                let size = Math.random()*200+100;
+                f.style.width = size+'px'; f.style.height = size+'px';
+                f.style.left = Math.random()*100+'%'; f.style.top = Math.random()*100+'%';
+                f.style.animationDuration = (Math.random()*10+10)+'s';
+                fogCont.appendChild(f);
+            }
+        }
+        generateEffects();
+
+        // Обработчики кнопок выбора
         document.querySelectorAll('.book-btn').forEach(btn => {
             btn.addEventListener('click', () => {
-                const bookId = btn.getAttribute('data-book');
-                openBook(bookId);
+                openBook(btn.getAttribute('data-book'));
             });
         });
 
+        // Открытие книги
         function openBook(bookId) {
             currentBookId = bookId;
             const book = booksData[bookId];
 
-            // Меняем тему (цвета фона и элементов)
+            // 1. Смена темы
             document.body.className = book.theme;
-            
-            // Обновляем тексты
+
+            // 2. Смена фонового эффекта
+            document.querySelectorAll('.bg-effect').forEach(el => el.classList.remove('active'));
+            document.getElementById(book.effect).classList.add('active');
+
+            // 3. Дракон (только для Пламени)
+            if (book.dragon) {
+                dragonContainer.classList.add('visible');
+            } else {
+                dragonContainer.classList.remove('visible');
+            }
+
+            // 4. Тексты
             bookTitleEl.textContent = book.title;
-            bookSubtitleEl.textContent = book.subtitle;
-            
-            // Ставим случайное предсказание при входе
             predText.textContent = getRandomPrediction(book.predictions);
 
-            // Переключаем экраны
+            // 5. Смена экранов
             selectionScreen.classList.remove('active');
             predictionScreen.classList.add('active');
-            
-            // Показываем дракона
-            dragonContainer.classList.add('visible');
         }
 
+        // Возврат назад
         function goBack() {
-            // Скрываем экран предсказаний
             predictionScreen.classList.remove('active');
-            
-            // Показываем экран выбора
             selectionScreen.classList.add('active');
             
-            // Прячем дракона
+            // Возвращаем нейтральную тему
+            document.body.className = 'theme-neutral';
+            document.querySelectorAll('.bg-effect').forEach(el => el.classList.remove('active'));
             dragonContainer.classList.remove('visible');
-            
-            // Возвращаем дефолтную тему
-            document.body.className = ''; 
             
             currentBookId = null;
         }
 
         btnBack.addEventListener('click', goBack);
 
-        // Логика предсказаний
-        function getRandomPrediction(predictionsArray) {
-            const random = Math.floor(Math.random() * predictionsArray.length);
-            return predictionsArray[random];
+        // Рандом
+        function getRandomPrediction(arr) {
+            return arr[Math.floor(Math.random() * arr.length)];
         }
 
+        // Кнопка предсказания
         btnPredict.addEventListener('click', () => {
             if (!currentBookId) return;
-            
             const book = booksData[currentBookId];
-            const newText = getRandomPrediction(book.predictions);
-            
             predText.classList.add('fade');
             setTimeout(() => {
-                predText.textContent = newText;
+                predText.textContent = getRandomPrediction(book.predictions);
                 predText.classList.remove('fade');
             }, 350);
         });
 
-
-        // ---------- СЛЕДОВАНИЕ ДРАКОНА ЗА КУРСОРОМ ----------
+        // Курсор и дракон
+        const glow = document.getElementById('cursor-glow');
         const container = document.getElementById('dragon-container');
-        const cursorFire = document.getElementById('cursor-fire');
-        const dragonImg = document.getElementById('dragonImg');
-
-        let targetX = window.innerWidth / 2;
-        let targetY = window.innerHeight / 2;
-        let currentX = targetX;
-        let currentY = targetY;
-
-        let dragonW = 300;
-        let dragonH = 250;
-
-        function updateDragonSize() {
-            const rect = dragonImg.getBoundingClientRect();
-            if (rect.width) {
-                dragonW = rect.width;
-                dragonH = rect.height;
-            }
-        }
-        window.addEventListener('load', () => setTimeout(updateDragonSize, 200));
-        window.addEventListener('resize', () => setTimeout(updateDragonSize, 200));
+        let targetX = window.innerWidth / 2, targetY = window.innerHeight / 2;
+        let currentX = targetX, currentY = targetY;
 
         document.addEventListener('mousemove', (e) => {
-            targetX = e.clientX;
-            targetY = e.clientY;
-            cursorFire.style.left = targetX + 'px';
-            cursorFire.style.top = targetY + 'px';
+            targetX = e.clientX; targetY = e.clientY;
+            glow.style.left = targetX + 'px';
+            glow.style.top = targetY + 'px';
         });
 
-        function followDragon() {
+        function animate() {
             const dx = targetX - currentX;
             const dy = targetY - currentY;
-            const ease = 0.10;
-            currentX += dx * ease;
-            currentY += dy * ease;
-            const offsetX = dragonW / 2;
-            const offsetY = dragonH / 2;
-            container.style.transform = `translate(${currentX - offsetX}px, ${currentY - offsetY}px)`;
-            requestAnimationFrame(followDragon);
+            currentX += dx * 0.1; currentY += dy * 0.1;
+            container.style.transform = `translate(${currentX - 150}px, ${currentY - 125}px)`;
+            requestAnimationFrame(animate);
         }
-        followDragon();
-
-        // ---------- ЗВЁЗДЫ ----------
-        const starsContainer = document.getElementById('starsContainer');
-        for (let i = 0; i < 130; i++) {
-            const star = document.createElement('div');
-            star.className = 'star';
-            const size = Math.random() * 3 + 1;
-            star.style.width = size + 'px';
-            star.style.height = size + 'px';
-            star.style.left = Math.random() * 100 + '%';
-            star.style.top = Math.random() * 100 + '%';
-            star.style.setProperty('--duration', (Math.random() * 3 + 2) + 's');
-            star.style.animationDelay = (Math.random() * 6) + 's';
-            star.style.opacity = Math.random() * 0.5 + 0.15;
-            starsContainer.appendChild(star);
-        }
+        animate();
     </script>
 </body>
 </html>
