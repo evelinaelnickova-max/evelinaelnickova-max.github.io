@@ -7,7 +7,6 @@
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
-        /* ================= ПЕРЕМЕННЫЕ ================= */
         :root {
             --bg-gradient: radial-gradient(circle at center, #14122a 0%, #050510 60%, #000000 100%);
             --card-bg: rgba(15, 15, 25, 0.85);
@@ -111,31 +110,59 @@
         }
         .bg-effect.active { opacity: 1; }
 
-        /* ---------- НЕЙТРАЛЬНЫЙ: северное сияние ---------- */
-        .aurora {
+        /* ---------- НЕЙТРАЛЬНЫЙ: мистические руны ---------- */
+        .glyph {
             position: absolute;
-            border-radius: 50%;
-            filter: blur(90px);
-            mix-blend-mode: screen;
-            animation: aurora-drift ease-in-out infinite alternate;
+            bottom: -60px;
+            color: rgba(180, 200, 255, 0.85);
+            text-shadow:
+                0 0 10px rgba(150, 180, 255, 0.9),
+                0 0 22px rgba(110, 150, 255, 0.5);
+            animation: float-glyph linear infinite;
+            user-select: none;
+            will-change: transform, opacity;
         }
-        @keyframes aurora-drift {
-            0%   { transform: translate(0, 0) scale(1)   rotate(0deg);    opacity: 0.35; }
-            100% { transform: translate(80px, -50px) scale(1.35) rotate(15deg); opacity: 0.65; }
+        @keyframes float-glyph {
+            0%   { transform: translateY(0)      rotate(0deg)   scale(0.8); opacity: 0; }
+            10%  { opacity: 0.95; }
+            85%  { opacity: 0.55; }
+            100% { transform: translateY(-115vh) rotate(340deg) scale(1.1); opacity: 0; }
         }
 
-        /* ---------- НЕЙТРАЛЬНЫЙ: светлячки ---------- */
-        .firefly {
+        /* ---------- ПЛАМЯ: закатные звёзды ---------- */
+        .star {
             position: absolute;
-            background: radial-gradient(circle, #ffffff 0%, #a8d0ff 35%, rgba(120, 170, 255, 0) 75%);
+            background: #fff5e0;
             border-radius: 50%;
-            filter: blur(0.5px);
-            box-shadow: 0 0 8px rgba(170, 200, 255, 0.8);
-            animation: firefly ease-in-out infinite;
+            box-shadow:
+                0 0 8px rgba(255, 220, 160, 0.9),
+                0 0 15px rgba(255, 180, 100, 0.45);
+            animation: twinkle ease-in-out infinite;
         }
-        @keyframes firefly {
-            0%, 100% { opacity: 0.05; transform: translate(0, 0)         scale(0.6); }
-            50%      { opacity: 1;    transform: translate(25px, -20px)  scale(1.2); }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.15; transform: scale(0.6); }
+            50%      { opacity: 1;    transform: scale(1.3); }
+        }
+
+        /* ---------- ПЛАМЯ: закатное свечение ---------- */
+        .sun-glow {
+            position: absolute;
+            left: 50%;
+            bottom: -180px;
+            transform: translateX(-50%);
+            width: 900px;
+            height: 500px;
+            background: radial-gradient(ellipse at center,
+                rgba(255, 190, 90, 0.55) 0%,
+                rgba(255, 120, 40, 0.3) 35%,
+                rgba(180, 40, 40, 0) 75%);
+            border-radius: 50%;
+            filter: blur(20px);
+            animation: sun-pulse ease-in-out infinite alternate;
+        }
+        @keyframes sun-pulse {
+            0%   { opacity: 0.7; transform: translateX(-50%) scale(1); }
+            100% { opacity: 1;   transform: translateX(-50%) scale(1.08); }
         }
 
         /* ---------- МОНСТРЫ: кровавые искры ---------- */
@@ -145,9 +172,9 @@
             box-shadow: 0 0 10px #ff4d4d, 0 0 20px #a82a2a;
         }
         @keyframes fall {
-            0%   { transform: translateY(-100vh) translateX(0) scale(1);     opacity: 0; }
+            0%   { transform: translateY(-100vh) translateX(0) scale(1);      opacity: 0; }
             20%  { opacity: 1; } 80% { opacity: 1; }
-            100% { transform: translateY(100vh) translateX(30px) scale(0.5); opacity: 0; }
+            100% { transform: translateY(100vh) translateX(30px) scale(0.5);  opacity: 0; }
         }
 
         /* ---------- ДОМ: золотой песок ---------- */
@@ -173,27 +200,6 @@
         @keyframes float-side {
             0%   { transform: translateX(-80px) scale(1);   opacity: 0.2; }
             100% { transform: translateX(80px)  scale(1.2); opacity: 0.7; }
-        }
-
-        /* ---------- ПЛАМЯ: закатное свечение снизу ---------- */
-        .sun-glow {
-            position: absolute;
-            left: 50%;
-            bottom: -180px;
-            transform: translateX(-50%);
-            width: 900px;
-            height: 500px;
-            background: radial-gradient(ellipse at center,
-                rgba(255, 190, 90, 0.55) 0%,
-                rgba(255, 120, 40, 0.3) 35%,
-                rgba(180, 40, 40, 0) 75%);
-            border-radius: 50%;
-            filter: blur(20px);
-            animation: sun-pulse ease-in-out infinite alternate;
-        }
-        @keyframes sun-pulse {
-            0%   { opacity: 0.7; transform: translateX(-50%) scale(1);    }
-            100% { opacity: 1;   transform: translateX(-50%) scale(1.08); }
         }
 
         /* ================= ЭКРАНЫ ================= */
@@ -295,10 +301,10 @@
 
     <!-- Фоновые эффекты -->
     <div id="bg-neutral" class="bg-effect active"></div>
+    <div id="bg-flame"   class="bg-effect"><div class="sun-glow"></div></div>
     <div id="bg-ash"     class="bg-effect"></div>
     <div id="bg-sand"    class="bg-effect"></div>
     <div id="bg-fog"     class="bg-effect"></div>
-    <div id="bg-flame"   class="bg-effect"><div class="sun-glow"></div></div>
 
     <!-- ЭКРАН 1: ВЫБОР -->
     <div id="selection-screen" class="screen active">
@@ -338,7 +344,6 @@
             sapphires: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Ccircle cx='16' cy='16' r='11' fill='%231a44a1' opacity='0.6'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%238ab4f8'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23ffffff'/%3E%3C/svg%3E"
         };
 
-        // Нейтральный GIF-курсор (лежит рядом с HTML)
         const DEFAULT_CURSOR = "cursor-default.gif";
 
         /* ============ БАЗА ДАННЫХ КНИГ ============ */
@@ -347,7 +352,7 @@
                 title: "Пламя в темноте",
                 theme: "theme-flame",
                 effect: "bg-flame",
-                cursor: "drago.gif",              // GIF-курсор «Пламени»
+                cursor: "drago.gif",
                 predictions: [
                     "Ты – пламя в темноте. Твой свет не погаснет, даже если весь мир объяла тьма.",
                     "Истинная пара найдёт тебя, когда ты будешь готова принять свою суть.",
@@ -514,37 +519,39 @@
 
         /* ============ ГЕНЕРАЦИЯ ФОНОВЫХ ЭФФЕКТОВ ============ */
         function generateEffects() {
-            // ----- Нейтральный: северное сияние -----
+            // ----- НЕЙТРАЛЬНЫЙ: мистические руны -----
             const neutralCont = document.getElementById('bg-neutral');
-            const auroraColors = ['#4a7ab8', '#8a4a9a', '#3a6a9a', '#5a3a8a', '#2a5a7a'];
-            for (let i = 0; i < 5; i++) {
-                const a = document.createElement('div');
-                a.className = 'aurora';
-                const size = Math.random() * 400 + 350;
-                a.style.width  = size + 'px';
-                a.style.height = size * 0.65 + 'px';
-                a.style.left   = Math.random() * 100 + '%';
-                a.style.top    = Math.random() * 100 + '%';
-                a.style.background = `radial-gradient(ellipse, ${auroraColors[i % auroraColors.length]} 0%, transparent 70%)`;
-                a.style.animationDuration = (Math.random() * 8 + 12) + 's';
-                a.style.animationDelay    = (Math.random() * 5) + 's';
-                neutralCont.appendChild(a);
-            }
-            // ----- Нейтральный: светлячки -----
-            for (let i = 0; i < 45; i++) {
-                const ff = document.createElement('div');
-                ff.className = 'firefly';
-                const size = Math.random() * 6 + 3;
-                ff.style.width  = size + 'px';
-                ff.style.height = size + 'px';
-                ff.style.left   = Math.random() * 100 + '%';
-                ff.style.top    = Math.random() * 100 + '%';
-                ff.style.animationDuration = (Math.random() * 4 + 4) + 's';
-                ff.style.animationDelay    = (Math.random() * 8) + 's';
-                neutralCont.appendChild(ff);
+            const glyphSymbols = ['✦', '✧', '☾', '☽', '❋', '✺', '✿', '⚜', '❖', '✶', '✷', '✹'];
+            for (let i = 0; i < 35; i++) {
+                const g = document.createElement('div');
+                g.className = 'glyph';
+                g.textContent = glyphSymbols[Math.floor(Math.random() * glyphSymbols.length)];
+                g.style.fontSize = (Math.random() * 20 + 12) + 'px';
+                g.style.left = Math.random() * 100 + '%';
+                g.style.bottom = -(Math.random() * 80 + 20) + 'px';
+                g.style.animationDuration = (Math.random() * 18 + 16) + 's';
+                // Отрицательная задержка — руны стартуют уже в полёте
+                g.style.animationDelay = -(Math.random() * 25) + 's';
+                neutralCont.appendChild(g);
             }
 
-            // ----- Монстры: искры -----
+            // ----- ПЛАМЯ: закатные звёзды -----
+            const flameCont = document.getElementById('bg-flame');
+            for (let i = 0; i < 110; i++) {
+                const star = document.createElement('div');
+                star.className = 'star';
+                const size = Math.random() * 2.5 + 1;
+                star.style.width  = size + 'px';
+                star.style.height = size + 'px';
+                star.style.left   = Math.random() * 100 + '%';
+                // Больше звёзд в верхней половине (где темнее), немного снизу
+                star.style.top    = (Math.random() * Math.random() * 100) + '%';
+                star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                star.style.animationDelay    = (Math.random() * 4) + 's';
+                flameCont.appendChild(star);
+            }
+
+            // ----- МОНСТРЫ: искры -----
             const ashCont = document.getElementById('bg-ash');
             for (let i = 0; i < 80; i++) {
                 const a = document.createElement('div');
@@ -557,7 +564,7 @@
                 ashCont.appendChild(a);
             }
 
-            // ----- Дом: песок -----
+            // ----- ДОМ: песок -----
             const sandCont = document.getElementById('bg-sand');
             for (let i = 0; i < 60; i++) {
                 const s = document.createElement('div');
@@ -570,7 +577,7 @@
                 sandCont.appendChild(s);
             }
 
-            // ----- Смоль: туман -----
+            // ----- СМОЛЬ: туман -----
             const fogCont = document.getElementById('bg-fog');
             for (let i = 0; i < 12; i++) {
                 const f = document.createElement('div');
@@ -645,7 +652,7 @@
             }, 350);
         });
 
-        /* ============ КУРСОР ============ */
+        /* ============ ДВИЖЕНИЕ КУРСОРА ============ */
         document.addEventListener('mousemove', (e) => {
             customCursor.style.left = e.clientX + 'px';
             customCursor.style.top  = e.clientY + 'px';
