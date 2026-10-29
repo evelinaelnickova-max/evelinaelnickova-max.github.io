@@ -82,18 +82,18 @@
             justify-content: center;
             align-items: center;
             transition: background 1s ease;
-            cursor: none; /* Скрываем стандартный курсор везде */
+            cursor: none; /* Скрываем стандартный курсор */
         }
 
-        /* Кастомный гиф-курсор (следует за мышкой без задержки) */
+        /* Кастомный гиф-курсор */
         #custom-cursor {
             position: fixed;
             pointer-events: none;
             z-index: 9999;
-            width: 50px; /* Размер курсора */
+            width: 50px;
             height: 50px;
             transform: translate(-50%, -50%);
-            display: none; /* Скрыт по умолчанию */
+            display: none;
             filter: drop-shadow(0 0 10px var(--glow-color));
         }
         #custom-cursor.active { display: block; }
@@ -129,17 +129,6 @@
         }
         .bg-effect.active { opacity: 1; }
 
-        /* Звезды (Пламя) */
-        .star {
-            position: absolute; background: #fff; border-radius: 50%;
-            animation: twinkle var(--duration) infinite alternate;
-            box-shadow: 0 0 8px rgba(255, 215, 150, 0.9);
-        }
-        @keyframes twinkle {
-            0% { opacity: 0.2; transform: scale(0.8); }
-            100% { opacity: 1; transform: scale(1.2); }
-        }
-
         /* Яркие кровавые искры (Монстры) */
         .ash {
             position: absolute; background: #ff4d4d; border-radius: 50%;
@@ -166,17 +155,17 @@
             100% { transform: translateX(100vw) translateY(20px); opacity: 0; }
         }
 
-        /* Светящийся туман (Смоль) */
+        /* Светящийся туман (Смоль) - Движение в стороны */
         .fog {
             position: absolute; 
             background: radial-gradient(circle, rgba(77, 136, 255, 0.4) 0%, transparent 70%);
             border-radius: 50%;
             filter: blur(20px); 
-            animation: float linear infinite alternate;
+            animation: float-side linear infinite alternate;
         }
-        @keyframes float {
-            0% { transform: translate(0, 0) scale(1); opacity: 0.2; }
-            100% { transform: translate(40px, -40px) scale(1.3); opacity: 0.6; }
+        @keyframes float-side {
+            0% { transform: translateX(-80px) scale(1); opacity: 0.2; }
+            100% { transform: translateX(80px) scale(1.2); opacity: 0.7; }
         }
 
         /* ==================== ЭКРАНЫ ==================== */
@@ -205,7 +194,7 @@
         .book-btn {
             background: rgba(0, 0, 0, 0.6); border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 15px; padding: 30px 20px; color: #fff;
-            font-family: 'Georgia', serif; font-size: 18px; cursor: none; /* Скрываем курсор на кнопках */
+            font-family: 'Georgia', serif; font-size: 18px; cursor: none;
             transition: all 0.3s ease; height: 150px;
             display: flex; flex-direction: column; justify-content: center; align-items: center;
         }
@@ -266,7 +255,7 @@
         }
         .btn:hover { transform: translateY(-2px); border-color: var(--accent-color); }
 
-        /* Дракон (только для Пламени, как отдельный большой элемент) */
+        /* Дракон (только для Пламени) */
         #dragon-container {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             pointer-events: none; z-index: 10; will-change: transform;
@@ -295,14 +284,12 @@
 
     <!-- ФОНОВЫЕ ГИФКИ -->
     <div id="bg-gif-container">
-        <img id="gif-flame" src="flame-sparks.gif" alt="Искры">
         <img id="gif-steel" src="steel-sparks.gif" alt="Кровавые искры">
         <img id="gif-house" src="house-hourglass.gif" alt="Песочные часы">
         <img id="gif-sapphires" src="sapphire-gem.gif" alt="Сапфир">
     </div>
 
     <!-- Фоновые CSS-эффекты -->
-    <div id="bg-stars" class="bg-effect"></div>
     <div id="bg-ash" class="bg-effect"></div>
     <div id="bg-sand" class="bg-effect"></div>
     <div id="bg-fog" class="bg-effect"></div>
@@ -346,10 +333,10 @@
             flame: {
                 title: "Пламя в темноте",
                 theme: "theme-flame",
-                effect: "bg-stars",
-                gif: "gif-flame",
-                cursor: "cursor-flame.gif", // Гифка для курсора
-                dragon: true,
+                effect: "none", // Убрали фоновые эффекты
+                gif: "none",    // Убрали фоновую гифку
+                cursor: "cursor-flame.gif",
+                dragon: true,   // Оставили только дракона
                 predictions: [
                     "Ты – пламя в темноте. Твой свет не погаснет, даже если весь мир объяла тьма.",
                     "Истинная пара найдёт тебя, когда ты будешь готова принять свою суть.",
@@ -383,7 +370,7 @@
                 theme: "theme-steel",
                 effect: "bg-ash",
                 gif: "gif-steel",
-                cursor: "cursor-steel.gif", // Гифка для курсора
+                cursor: "cursor-steel.gif",
                 dragon: false,
                 predictions: [
                     "Сталь в твоих венах не знает пощады, но любовь может расплавить даже самое холодное сердце.",
@@ -422,7 +409,7 @@
                 theme: "theme-house",
                 effect: "bg-sand",
                 gif: "gif-house",
-                cursor: "cursor-house.gif", // Гифка для курсора
+                cursor: "cursor-house.gif",
                 dragon: false,
                 predictions: [
                     "Твой дом там, где бьется сердце близких. Не бойся пустыни, она укажет путь к спасению.",
@@ -461,7 +448,7 @@
                 theme: "theme-sapphires",
                 effect: "bg-fog",
                 gif: "gif-sapphires",
-                cursor: "cursor-sapphire.gif", // Гифка для курсора
+                cursor: "cursor-sapphire.gif",
                 dragon: false,
                 predictions: [
                     "В мире, полном монстров, питающихся кровью, ты и сама монстр, Лайла. Но любовь способна приручить тьму.",
@@ -512,17 +499,6 @@
 
         // Генерация фоновых элементов
         function generateEffects() {
-            const starsCont = document.getElementById('bg-stars');
-            for(let i=0; i<100; i++) {
-                let s = document.createElement('div');
-                s.className = 'star';
-                let size = Math.random()*2+1;
-                s.style.width = size+'px'; s.style.height = size+'px';
-                s.style.left = Math.random()*100+'%'; s.style.top = Math.random()*100+'%';
-                s.style.setProperty('--duration', (Math.random()*3+2)+'s');
-                starsCont.appendChild(s);
-            }
-            
             const ashCont = document.getElementById('bg-ash');
             for(let i=0; i<80; i++) { 
                 let a = document.createElement('div');
@@ -574,18 +550,27 @@
 
             document.body.className = book.theme;
 
+            // Включаем CSS-эффекты (если они есть)
             document.querySelectorAll('.bg-effect').forEach(el => el.classList.remove('active'));
-            document.getElementById(book.effect).classList.add('active');
+            if (book.effect !== "none") {
+                document.getElementById(book.effect).classList.add('active');
+            }
 
-            bgGifContainer.classList.add('active');
+            // Включаем фоновую гифку (если она есть)
             document.querySelectorAll('#bg-gif-container img').forEach(img => img.classList.remove('active'));
-            const targetGif = document.getElementById(book.gif);
-            if (targetGif) targetGif.classList.add('active');
+            if (book.gif !== "none") {
+                bgGifContainer.classList.add('active');
+                const targetGif = document.getElementById(book.gif);
+                if (targetGif) targetGif.classList.add('active');
+            } else {
+                bgGifContainer.classList.remove('active');
+            }
 
             // Включаем кастомный гиф-курсор
             customCursor.src = book.cursor;
             customCursor.classList.add('active');
 
+            // Дракон (только для Пламени)
             if (book.dragon) {
                 dragonContainer.classList.add('visible');
             } else {
@@ -607,8 +592,6 @@
             document.querySelectorAll('.bg-effect').forEach(el => el.classList.remove('active'));
             bgGifContainer.classList.remove('active');
             dragonContainer.classList.remove('visible');
-            
-            // Выключаем кастомный курсор (возвращаем стандартный)
             customCursor.classList.remove('active');
             
             currentBookId = null;
@@ -631,7 +614,6 @@
         });
 
         // Движение курсора и дракона
-        const dragonImg = document.getElementById('dragonImg');
         let targetX = window.innerWidth / 2, targetY = window.innerHeight / 2;
         let currentX = targetX, currentY = targetY;
 
