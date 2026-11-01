@@ -300,10 +300,49 @@
         }
         .btn:hover { transform: translateY(-2px); border-color: var(--accent-color); }
 
+        /* ================= ПЛАНШЕТЫ И ТЕЛЕФОНЫ ================= */
+        @media (max-width: 768px) {
+            /* Курсор на тач-экране не нужен */
+            #custom-cursor { display: none !important; }
+            body { cursor: auto; }
+
+            /* Разрешаем прокрутку внутри экрана */
+            .screen {
+                align-items: flex-start;
+                overflow-y: auto;
+                overflow-x: hidden;
+                -webkit-overflow-scrolling: touch;
+                padding: 20px 15px;
+                box-sizing: border-box;
+            }
+            .selection-container,
+            .card-wrapper { margin: auto 0; }
+        }
+
         @media (max-width: 640px) {
-            .card { padding: 25px 15px; }
-            .card h1 { font-size: 20px; }
+            .card { padding: 20px 15px 25px; }
+
+            /* Кнопка «Назад» уходит из абсолютного позиционирования —
+               теперь она в потоке, над заголовком, а не под ним */
+            .back-btn {
+                position: static;
+                display: block;
+                width: fit-content;
+                margin: 0 0 12px;
+                font-size: 13px;
+                padding: 7px 13px;
+            }
+
+            /* Убираем верхний отступ, чтобы заголовок не «уезжал» */
+            .card h1 {
+                font-size: 20px;
+                margin-top: 0;
+                letter-spacing: 2px;
+            }
+
+            .card .author { font-size: 14px; letter-spacing: 4px; }
             .prediction-text { font-size: 16px; }
+            .prediction-box { min-height: 120px; padding: 12px; }
             .books-grid { grid-template-columns: 1fr; }
             .sun-glow { width: 600px; height: 380px; bottom: -140px; }
         }
@@ -671,6 +710,9 @@
 
             selectionScreen.classList.remove('active');
             predictionScreen.classList.add('active');
+
+            // Сброс прокрутки на мобильном — открывать карточку сверху
+            predictionScreen.scrollTop = 0;
         }
 
         function goBack() {
@@ -682,6 +724,8 @@
 
             currentBookId = null;
             customCursor.src = DEFAULT_CURSOR;
+
+            selectionScreen.scrollTop = 0;
         }
 
         btnBack.addEventListener('click', goBack);
