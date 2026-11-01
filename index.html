@@ -204,35 +204,6 @@
             100% { transform: translateY(-25px)  scale(1.2);  opacity: 0.95; }
         }
 
-        /* ---------- САНТА БОЙ: сердечки ---------- */
-        .heart {
-            position: absolute;
-            bottom: -60px;
-            animation: float-heart linear infinite;
-            filter: drop-shadow(0 0 10px rgba(255, 110, 170, 0.9));
-            user-select: none;
-            will-change: transform, opacity;
-        }
-        @keyframes float-heart {
-            0%   { transform: translateY(0)      translateX(0)   rotate(-15deg) scale(0.6);  opacity: 0; }
-            15%  { opacity: 1; }
-            85%  { opacity: 0.9; }
-            100% { transform: translateY(-115vh) translateX(40px) rotate(15deg)  scale(1.15); opacity: 0; }
-        }
-
-        /* ---------- САНТА БОЙ: рождественские атрибуты ---------- */
-        .christmas-attr {
-            position: absolute;
-            animation: attr-twinkle ease-in-out infinite;
-            filter: drop-shadow(0 0 8px rgba(255, 210, 100, 0.9));
-            user-select: none;
-            will-change: transform, opacity;
-        }
-        @keyframes attr-twinkle {
-            0%, 100% { opacity: 0.25; transform: scale(0.65) rotate(-12deg); }
-            50%      { opacity: 1;    transform: scale(1.25) rotate(12deg); }
-        }
-
         /* ---------- СМОЛЬ: туман ---------- */
         .fog {
             position: absolute;
@@ -605,7 +576,7 @@
                 ashCont.appendChild(a);
             }
 
-            // ----- САНТА БОЙ: снег + шары + сердечки + атрибуты -----
+            // ----- САНТА БОЙ: снег + ёлочные шары -----
             const santaCont = document.getElementById('bg-santa');
 
             // Снежинки-кружки
@@ -652,34 +623,6 @@
                 o.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
                 o.style.animationDelay    = (Math.random() * 3) + 's';
                 santaCont.appendChild(o);
-            }
-
-            // Сердечки
-            const heartSymbols = ['💖', '💕', '💗', '❤️', '💓', '💝', '💘'];
-            for (let i = 0; i < 28; i++) {
-                const h = document.createElement('div');
-                h.className = 'heart';
-                h.textContent = heartSymbols[Math.floor(Math.random() * heartSymbols.length)];
-                h.style.fontSize = (Math.random() * 18 + 14) + 'px';
-                h.style.left = Math.random() * 100 + '%';
-                h.style.bottom = -(Math.random() * 80 + 20) + 'px';
-                h.style.animationDuration = (Math.random() * 9 + 8) + 's';
-                h.style.animationDelay = -(Math.random() * 18) + 's';
-                santaCont.appendChild(h);
-            }
-
-            // Рождественские атрибуты
-            const xmasSymbols = ['⭐', '🌟', '✨', '🔔', '🍬', '🍭', '🎄', '🎁', '🧦'];
-            for (let i = 0; i < 32; i++) {
-                const x = document.createElement('div');
-                x.className = 'christmas-attr';
-                x.textContent = xmasSymbols[Math.floor(Math.random() * xmasSymbols.length)];
-                x.style.fontSize = (Math.random() * 14 + 12) + 'px';
-                x.style.left = Math.random() * 100 + '%';
-                x.style.top = Math.random() * 100 + '%';
-                x.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                x.style.animationDelay = (Math.random() * 4) + 's';
-                santaCont.appendChild(x);
             }
 
             // ----- СМОЛЬ: туман -----
