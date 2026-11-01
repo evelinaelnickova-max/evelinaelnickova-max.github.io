@@ -21,12 +21,8 @@
         /* ---------- ПЛАМЯ: ЗАКАТ ---------- */
         body.theme-flame {
             --bg-gradient: linear-gradient(to bottom,
-                #1a0520 0%,
-                #3d0a2e 18%,
-                #6b1520 42%,
-                #a8322a 68%,
-                #d97030 86%,
-                #f0b060 100%);
+                #1a0520 0%, #3d0a2e 18%, #6b1520 42%,
+                #a8322a 68%, #d97030 86%, #f0b060 100%);
             --card-bg: rgba(20, 8, 10, 0.85);
             --card-border: rgba(255, 140, 80, 0.3);
             --title-color: #ffd0a0;
@@ -48,16 +44,21 @@
             --glow-color: rgba(168, 42, 42, 0.3);
         }
 
-        /* ---------- ДОМ ---------- */
-        body.theme-house {
-            --bg-gradient: linear-gradient(to bottom, #3d2b10 0%, #0a0802 100%);
-            --card-bg: rgba(30, 20, 10, 0.85);
-            --card-border: rgba(212, 175, 55, 0.3);
-            --title-color: #f4d03f;
-            --text-color: #e0c080;
-            --accent-color: #d4af37;
-            --btn-bg: linear-gradient(145deg, #4a3412, #2a1d08);
-            --glow-color: rgba(212, 175, 55, 0.2);
+        /* ---------- САНТА БОЙ: РОЗОВАЯ ТЕМА ---------- */
+        body.theme-santa {
+            --bg-gradient: linear-gradient(to bottom,
+                #1a0410 0%,
+                #3a0a24 25%,
+                #5c1238 50%,
+                #8a1c50 75%,
+                #b82a66 100%);
+            --card-bg: rgba(38, 8, 22, 0.88);
+            --card-border: rgba(255, 140, 190, 0.4);
+            --title-color: #ffc0dc;
+            --text-color: #ffe0ec;
+            --accent-color: #ff6fa8;
+            --btn-bg: linear-gradient(145deg, #4a1830, #280818);
+            --glow-color: rgba(255, 110, 170, 0.4);
         }
 
         /* ---------- СМОЛЬ ---------- */
@@ -134,24 +135,18 @@
             position: absolute;
             background: #fff5e0;
             border-radius: 50%;
-            box-shadow:
-                0 0 8px rgba(255, 220, 160, 0.9),
-                0 0 15px rgba(255, 180, 100, 0.45);
+            box-shadow: 0 0 8px rgba(255, 220, 160, 0.9), 0 0 15px rgba(255, 180, 100, 0.45);
             animation: twinkle ease-in-out infinite;
         }
         @keyframes twinkle {
             0%, 100% { opacity: 0.15; transform: scale(0.6); }
             50%      { opacity: 1;    transform: scale(1.3); }
         }
-
-        /* ---------- ПЛАМЯ: закатное свечение ---------- */
         .sun-glow {
             position: absolute;
-            left: 50%;
-            bottom: -180px;
+            left: 50%; bottom: -180px;
             transform: translateX(-50%);
-            width: 900px;
-            height: 500px;
+            width: 900px; height: 500px;
             background: radial-gradient(ellipse at center,
                 rgba(255, 190, 90, 0.55) 0%,
                 rgba(255, 120, 40, 0.3) 35%,
@@ -177,16 +172,39 @@
             100% { transform: translateY(100vh) translateX(30px) scale(0.5);  opacity: 0; }
         }
 
-        /* ---------- ДОМ: золотой песок ---------- */
-        .sand {
-            position: absolute; background: #ffd700; border-radius: 2px;
-            animation: blow linear infinite; opacity: 0.8;
-            box-shadow: 0 0 5px #ffd700;
+        /* ---------- САНТА БОЙ: снегопад ---------- */
+        .snow-dot {
+            position: absolute;
+            background: #ffffff;
+            border-radius: 50%;
+            box-shadow: 0 0 6px rgba(255, 210, 235, 0.9);
+            animation: snow-fall linear infinite;
         }
-        @keyframes blow {
-            0%   { transform: translateX(-100vw) translateY(0);  opacity: 0; }
-            10%  { opacity: 1; } 90% { opacity: 1; }
-            100% { transform: translateX(100vw) translateY(20px); opacity: 0; }
+        @keyframes snow-fall {
+            0%   { transform: translateY(-10vh) translateX(0)   rotate(0deg);   opacity: 0; }
+            10%  { opacity: 1; }
+            90%  { opacity: 1; }
+            100% { transform: translateY(110vh) translateX(50px) rotate(360deg); opacity: 0; }
+        }
+
+        .snow-flake {
+            position: absolute;
+            color: #ffe0f0;
+            text-shadow: 0 0 8px rgba(255, 180, 220, 0.9);
+            animation: snow-fall linear infinite;
+            user-select: none;
+        }
+
+        /* ---------- САНТА БОЙ: ёлочные шары ---------- */
+        .ornament {
+            position: absolute;
+            border-radius: 50%;
+            animation: ornament-float ease-in-out infinite alternate;
+            will-change: transform, opacity;
+        }
+        @keyframes ornament-float {
+            0%   { transform: translateY(0) scale(0.75);  opacity: 0.35; }
+            100% { transform: translateY(-25px) scale(1.2); opacity: 0.95; }
         }
 
         /* ---------- СМОЛЬ: туман ---------- */
@@ -236,7 +254,7 @@
         }
         .book-btn[data-book="flame"]:hover     { border-color: #ff9050; color: #ffd0a0; }
         .book-btn[data-book="steel"]:hover     { border-color: #a82a2a; color: #d0d0d5; }
-        .book-btn[data-book="house"]:hover     { border-color: #d4af37; color: #f4d03f; }
+        .book-btn[data-book="santa"]:hover     { border-color: #ff6fa8; color: #ffc0dc; }
         .book-btn[data-book="sapphires"]:hover { border-color: #1a44a1; color: #8ab4f8; }
 
         .card-wrapper { position: relative; z-index: 25; width: 90%; max-width: 560px; }
@@ -296,14 +314,12 @@
 </head>
 <body class="theme-neutral">
 
-    <!-- Кастомный курсор (src ставится через JS) -->
     <img id="custom-cursor" alt="Курсор">
 
-    <!-- Фоновые эффекты -->
     <div id="bg-neutral" class="bg-effect active"></div>
     <div id="bg-flame"   class="bg-effect"><div class="sun-glow"></div></div>
     <div id="bg-ash"     class="bg-effect"></div>
-    <div id="bg-sand"    class="bg-effect"></div>
+    <div id="bg-santa"   class="bg-effect"></div>
     <div id="bg-fog"     class="bg-effect"></div>
 
     <!-- ЭКРАН 1: ВЫБОР -->
@@ -313,7 +329,7 @@
             <div class="books-grid">
                 <button class="book-btn" data-book="flame">Пламя в темноте<span>Таня Нордсвей</span></button>
                 <button class="book-btn" data-book="steel">Монстры царства стали<span>Таня Нордсвей</span></button>
-                <button class="book-btn" data-book="house">Дом<span>Таня Нордсвей</span></button>
+                <button class="book-btn" data-book="santa">Санта бой<span>Таня Нордсвей</span></button>
                 <button class="book-btn" data-book="sapphires">Смоль и сапфиры<span>Таня Нордсвей</span></button>
             </div>
         </div>
@@ -340,7 +356,7 @@
             default:   "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Ccircle cx='16' cy='16' r='9' fill='%23a0b4ff' opacity='0.45'/%3E%3Ccircle cx='16' cy='16' r='3.5' fill='%23ffffff'/%3E%3C/svg%3E",
             flame:     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Ccircle cx='16' cy='16' r='11' fill='%23ff8c42' opacity='0.6'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23ffcc66'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23ffffff'/%3E%3C/svg%3E",
             steel:     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Ccircle cx='16' cy='16' r='11' fill='%23a82a2a' opacity='0.6'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23e0e0e5'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23ffffff'/%3E%3C/svg%3E",
-            house:     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Ccircle cx='16' cy='16' r='11' fill='%23d4af37' opacity='0.6'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23f4d03f'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23ffffff'/%3E%3C/svg%3E",
+            santa:     "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Ccircle cx='16' cy='16' r='11' fill='%23ff6fa8' opacity='0.6'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%23ffc0dc'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23ffffff'/%3E%3C/svg%3E",
             sapphires: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='32' height='32'%3E%3Ccircle cx='16' cy='16' r='11' fill='%231a44a1' opacity='0.6'/%3E%3Ccircle cx='16' cy='16' r='6' fill='%238ab4f8'/%3E%3Ccircle cx='16' cy='16' r='2' fill='%23ffffff'/%3E%3C/svg%3E"
         };
 
@@ -418,41 +434,19 @@
                     "В конце пути тебя ждет не просто трон, а свобода, которую ты заслужила."
                 ]
             },
-            house: {
-                title: "Дом",
-                theme: "theme-house",
-                effect: "bg-sand",
-                cursor: "cursor-house.gif",
+            /* ====================================================
+               САНТА БОЙ — замените тексты ниже на свои.
+               Просто замените содержимое массива predictions.
+               ==================================================== */
+            santa: {
+                title: "Санта бой",
+                theme: "theme-santa",
+                effect: "bg-santa",
+                cursor: "cute-pinky.gif",
                 predictions: [
-                    "Твой дом там, где бьется сердце близких. Не бойся пустыни, она укажет путь к спасению.",
-                    "Перемещаясь во времени, не забудь, кто ты есть. Твоя сила — в памяти.",
-                    "Песок скроет следы прошлого, но правда всегда выйдет наружу.",
-                    "В каждом конце есть начало. Найди свой свет под желтым небом.",
-                    "Тот, кого ты считаешь врагом, может стать твоим единственным спасением.",
-                    "Дом — это не место. Это люди, которые ждут тебя у порога.",
-                    "В пустыне легко потеряться, но еще легче найти себя.",
-                    "Не бойся смотреть в прошлое, иначе будущее останется закрытой дверью.",
-                    "Твой путь усыпан песком, но твоя воля — сталь. Ты справишься.",
-                    "Иногда, чтобы вернуться домой, нужно пройти через ад.",
-                    "Время — это иллюзия, но любовь — вечна.",
-                    "Секреты прошлого хранят ключи к твоему будущему.",
-                    "Тот, кто пытается тебя остановить, боится твоей силы.",
-                    "Воды океана не смогут смыть твою тоску по дому, но они укажут верный путь.",
-                    "Ты создашь свой собственный дом, в котором будет место для всех, кого ты любишь.",
-                    "Тот, кто выжил в пустыне, сможет выжить где угодно. Ты уже победитель.",
-                    "Твоя находчивость — твой главный козырь. Используй её.",
-                    "Не все монстры выглядят как чудовища. Иногда они предлагают тебе воду.",
-                    "Твой брат всегда будет в твоем сердце. Он — твой компас.",
-                    "Время лечит, но оно же и открывает старые раны. Будь готова.",
-                    "Тот, кто ищет тебя, возможно, ищет не то, что ты думаешь.",
-                    "Твой путь домой лежит через принятие себя.",
-                    "Каждый шаг по песку приближает тебя к разгадке.",
-                    "Ты сильнее, чем кажешься. Пустыня проверяет на прочность.",
-                    "Не бойся одиночества. Иногда именно в тишине приходят ответы.",
-                    "Твой дом ждет тебя. Всё остальное — лишь декорации.",
-                    "Когда ты найдешь свой дом, ты поймешь, зачем все это было.",
-                    "Ты — свет в пустыне. Не дай ему погаснуть.",
-                    "Верь в себя. Пустыня не терпит сомнений."
+                    "🎄 ВРЕМЕННАЯ ЗАГЛУШКА — пришлите текст предсказаний для «Санта бой», и я вставлю сюда.",
+                    "🎁 ВРЕМЕННАЯ ЗАГЛУШКА — пришлите текст предсказаний для «Санта бой», и я вставлю сюда.",
+                    "❄️ ВРЕМЕННАЯ ЗАГЛУШКА — пришлите текст предсказаний для «Санта бой», и я вставлю сюда."
                 ]
             },
             sapphires: {
@@ -530,7 +524,6 @@
                 g.style.left = Math.random() * 100 + '%';
                 g.style.bottom = -(Math.random() * 80 + 20) + 'px';
                 g.style.animationDuration = (Math.random() * 18 + 16) + 's';
-                // Отрицательная задержка — руны стартуют уже в полёте
                 g.style.animationDelay = -(Math.random() * 25) + 's';
                 neutralCont.appendChild(g);
             }
@@ -544,7 +537,6 @@
                 star.style.width  = size + 'px';
                 star.style.height = size + 'px';
                 star.style.left   = Math.random() * 100 + '%';
-                // Больше звёзд в верхней половине (где темнее), немного снизу
                 star.style.top    = (Math.random() * Math.random() * 100) + '%';
                 star.style.animationDuration = (Math.random() * 3 + 2) + 's';
                 star.style.animationDelay    = (Math.random() * 4) + 's';
@@ -564,17 +556,53 @@
                 ashCont.appendChild(a);
             }
 
-            // ----- ДОМ: песок -----
-            const sandCont = document.getElementById('bg-sand');
+            // ----- САНТА БОЙ: снегопад (кружки + снежинки) + ёлочные шары -----
+            const santaCont = document.getElementById('bg-santa');
+
+            // Мелкие снежинки-кружки
             for (let i = 0; i < 60; i++) {
                 const s = document.createElement('div');
-                s.className = 'sand';
-                const size = Math.random() * 3 + 1;
-                s.style.width = size + 'px'; s.style.height = size + 'px';
-                s.style.top = Math.random() * 100 + '%';
-                s.style.animationDuration = (Math.random() * 3 + 2) + 's';
-                s.style.animationDelay = (Math.random() * 3) + 's';
-                sandCont.appendChild(s);
+                s.className = 'snow-dot';
+                const size = Math.random() * 3.5 + 1.5;
+                s.style.width  = size + 'px';
+                s.style.height = size + 'px';
+                s.style.left   = Math.random() * 100 + '%';
+                s.style.top    = -(Math.random() * 20) + '%';
+                s.style.animationDuration = (Math.random() * 6 + 6) + 's';
+                s.style.animationDelay    = (Math.random() * 8) + 's';
+                santaCont.appendChild(s);
+            }
+
+            // Крупные снежинки-символы ❄
+            const flakeSymbols = ['❄', '❅', '❆'];
+            for (let i = 0; i < 25; i++) {
+                const f = document.createElement('div');
+                f.className = 'snow-flake';
+                f.textContent = flakeSymbols[Math.floor(Math.random() * flakeSymbols.length)];
+                f.style.fontSize = (Math.random() * 14 + 10) + 'px';
+                f.style.left = Math.random() * 100 + '%';
+                f.style.top = -(Math.random() * 20) + '%';
+                f.style.animationDuration = (Math.random() * 7 + 8) + 's';
+                f.style.animationDelay    = (Math.random() * 10) + 's';
+                santaCont.appendChild(f);
+            }
+
+            // Ёлочные шары (пульсирующие светящиеся точки)
+            const ornamentColors = ['#ff6fa8', '#ffd700', '#ff3a5a', '#ffc0dc', '#ff4d94'];
+            for (let i = 0; i < 20; i++) {
+                const o = document.createElement('div');
+                o.className = 'ornament';
+                const size = Math.random() * 12 + 8;
+                const color = ornamentColors[Math.floor(Math.random() * ornamentColors.length)];
+                o.style.width  = size + 'px';
+                o.style.height = size + 'px';
+                o.style.left   = Math.random() * 100 + '%';
+                o.style.top    = Math.random() * 100 + '%';
+                o.style.background = `radial-gradient(circle at 30% 30%, #fff8, ${color} 60%, ${color})`;
+                o.style.boxShadow = `0 0 15px ${color}, 0 0 30px ${color}66`;
+                o.style.animationDuration = (Math.random() * 2 + 1.5) + 's';
+                o.style.animationDelay    = (Math.random() * 3) + 's';
+                santaCont.appendChild(o);
             }
 
             // ----- СМОЛЬ: туман -----
